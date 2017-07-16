@@ -1,0 +1,151 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Supremecreative_Giftregistry_Block_Customer_Giftregistry */
+?>
+
+
+
+
+<?php if ($this->helper('giftregistry')->isAllow()) : ?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+    <div class="my-giftregistry">
+        <div class="page-title title-buttons">
+            <h1><?php echo $this->getTitle(); ?></h1>
+        </div>
+        
+<?php if ($giftregistryInstance = $this->getGiftregistryInstance()) : ?>
+       
+        <div class="my-giftregistry">
+            
+            <h3><?php echo $this->__('Gift Registry Details'); ?></h3>
+            
+            <?php if ($giftregistryInstance->getBannerImg()) : ?> 
+            
+                <div class="registry_img_display">
+                    <img id="registry_img_display" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $giftregistryInstance->getBannerImg(); ?>" alt="<?php echo null !== $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?>" height="400" width="600"> 
+                </div>
+            
+            <?php endif; ?>
+            
+                <div class="registry_info">
+                    <p class="registry_info"><span><?php echo $this->__('Event Name') ?></span>: <?php echo $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : '' ?></p> 
+                    <p class="registry_info"><span><?php echo $this->__('Event Location') ?></span>: <?php echo $giftregistryInstance->getEventLocation() ? $giftregistryInstance->getEventLocation() : '' ?></p> 
+                    <p class="registry_info"><span><?php echo $this->__('Number Of Guests') ?></span>: <?php echo $giftregistryInstance->getNumberGuests() ? $giftregistryInstance->getNumberGuests() : '' ?></p> 
+                    <p class="registry_info"><span><?php echo $this->__('Gift Registry Sharing Code') ?></span>: <?php echo $giftregistryInstance->getSharingCode() ? $giftregistryInstance->getSharingCode() : '' ?></p> 
+                    <p class="registry_info"><span><?php echo $this->__('Message') ?></span>: <?php echo $giftregistryInstance->getEventMessage() ? $giftregistryInstance->getEventMessage() : '' ?></p> 
+                    
+                    <?php if ($shipping = json_decode($giftregistryInstance->getShipping(), true) ) : ?>
+                    
+                        <h3><?php echo $this->__('Shipping Details') ?></h3>
+                    
+                        <p class="registry_info"><span><?php echo $this->__('Recipient:') ?></span>
+                            
+                        <?php 
+                            echo isset($shipping["firstname"]) ? $shipping["firstname"] .' ' : '';
+                            echo isset($shipping["middlename"]) ? $shipping["middlename"] .' '  : '';
+                            echo isset($shipping["lastname"]) ? $shipping["lastname"] .' '  : '';
+                        ?>
+
+                        </p> 
+                        
+                        <p class="registry_info"><span><?php echo $this->__('Delivery Address:') ?></span>
+                        <?php
+                            echo isset($shipping["street_1"]) ? $shipping["street_1"] .' ' : '';
+                            echo isset($shipping["street_2"]) ? $shipping["street_2"] .' ' : '';
+                            echo isset($shipping["city"]) ? $shipping["city"] .' ' : '';
+                            echo isset($shipping["region"]) ? $shipping["region"] .' ' : '';
+                            echo isset($shipping["postcode"]) ? $shipping["postcode"] .' ' : '';
+                            echo isset($shipping["country_id"]) ? $shipping["country_id"] .' ' : '';
+                        ?>                            
+                        </p>
+                        
+                        <p class="registry_info"><span><?php echo $this->__('Telephone:') ?></span>
+                        <?php
+                            echo isset($shipping["telephone"]) ? $shipping["telephone"] : '';
+                        ?>                            
+                        </p>                        
+                    
+                    <?php endif; ?> 
+                        <p class="registry_info"><span><a class="editgiftregistry button" href="<?php echo $this->getUrl('giftregistry/index/edit/') ?>"><?php echo $this->__('Edit Gift Registry Details') ?></a></span></p>
+                </div>            
+            
+        </div>
+        
+<?php endif; ?>        
+
+        <form id="giftregistry-view-form" action="<?php echo $this->getUrl('*/*/update', array('giftregistry_id' => $this->getGiftregistryInstance()->getId())) ?>" method="post">
+            <?php echo $this->getChildHtml('top'); ?>
+            <fieldset>
+                <?php if ($this->hasGiftregistryItems()): ?>
+                        <?php echo $this->getBlockHtml('formkey');?>
+                        <?php $this->getChild('items')->setItems($this->getGiftregistryItems()); ?>
+                        <?php echo $this->getChildHtml('items');?>
+                        <script type="text/javascript">decorateTable('giftregistry-table')</script>
+                <?php else: ?>
+                    <p class="giftregistry-empty"><?php echo $this->__('You have no items in your gift registry.') ?></p>
+                <?php endif ?>
+                <div class="buttons-set buttons-set2">
+                    <?php echo $this->getChild('control_buttons')->toHtml();?>
+                </div>
+            </fieldset>
+        </form>
+
+        <form id="giftregistry-allcart-form" action="<?php echo $this->getUrl('*/*/allcart') ?>" method="post">
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <div class="no-display">
+                <input type="hidden" name="giftregistry_id" id="giftregistry_id" value="<?php echo $this->getGiftregistryInstance()->getId() ?>" />
+                <input type="hidden" name="qty" id="qty" value="" />
+            </div>
+        </form>
+
+        <script type="text/javascript">
+        //<![CDATA[
+            var giftregistryForm = new Validation($('giftregistry-view-form'));
+            var giftregistryAllCartForm = new Validation($('giftregistry-allcart-form'));
+
+            function calculateQty() {
+                var itemQtys = new Array();
+                $$('#giftregistry-view-form .qty').each(
+                    function (input, index) {
+                        var idxStr = input.name;
+                        var idx = idxStr.replace( /[^\d.]/g, '' );
+                        itemQtys[idx] = input.value;
+                    }
+                );
+
+                $$('#qty')[0].value = JSON.stringify(itemQtys);
+            }
+
+            function addAllWItemsToCart() {
+                calculateQty();
+                giftregistryAllCartForm.form.submit();
+            }
+        //]]>
+        </script>
+    </div>
+    <?php echo $this->getChildHtml('bottom'); ?>
+
+<?php endif ?>

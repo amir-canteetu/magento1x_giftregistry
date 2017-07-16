@@ -1,0 +1,201 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+-->
+<layout version="0.1.0">
+
+<!--
+Default layout, loads most of the pages
+-->
+
+    <default>
+        <reference name="top.links">
+            <block type="giftregistry/links" name="giftregistry_link" />
+            <action method="addLinkBlock"><blockName>giftregistry_link</blockName></action>
+        </reference>
+
+        <!-- Supremecreative_Giftregistry -->
+        <reference name="right">
+            <block type="giftregistry/customer_sidebar" name="giftregistry_sidebar" as="giftregistry" after="cart_sidebar" template="giftregistry/sidebar.phtml" />
+        </reference>
+    </default>
+
+<!--
+Customer account pages, rendered for all tabs in dashboard
+-->
+
+    <customer_account>
+        <!-- Supremecreative_Giftregistry -->
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="giftregistry" ifconfig="giftregistry/general/active"><name>giftregistry</name><path>giftregistry/</path><label>My Gift Registry</label></action>
+        </reference>
+    </customer_account>
+
+<!--
+Customer account home dashboard layout
+-->
+
+    <customer_account_index>
+        <reference name="right">
+            <action method="unsetChild"><name>giftregistry</name></action>
+        </reference>
+    </customer_account_index>
+
+<!--
+Giftregistry pages
+-->
+
+    <giftregistry_index_index translate="label">
+        <label>Customer My Account My Gift Registry</label>
+        <!-- Supremecreative_Giftregistry -->
+        <update handle="customer_account" />
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action> 
+            <action method="setTitle" translate="title" module="giftregistry"><title>My Gift Registry</title></action>                              
+        </reference>           
+        <reference name="my.account.wrapper">
+            <block type="giftregistry/customer_giftregistry" name="customer.giftregistry" template="giftregistry/view.phtml">
+                <action method="setTitle" translate="title">
+                    <title>My Gift Registry</title>
+                </action>
+                <block type="giftregistry/customer_giftregistry_items" name="customer.giftregistry.items" as="items" template="giftregistry/item/list.phtml">
+                    <block type="giftregistry/customer_giftregistry_item_column_image" name="customer.giftregistry.item.image" template="giftregistry/item/column/image.phtml" />
+                    <block type="giftregistry/customer_giftregistry_item_column_comment" name="customer.giftregistry.item.info" template="giftregistry/item/column/info.phtml">
+                        <block type="giftregistry/customer_giftregistry_button" name="customer.giftregistry.button.update" template="giftregistry/button/update.phtml" />
+                    </block>
+                    <block type="giftregistry/customer_giftregistry_item_column_cart" name="customer.giftregistry.item.quantity" template="giftregistry/item/column/quantity.phtml">
+                        <action method="setTitle" translate="title">
+                            <title>Qty</title>
+                        </action>
+                        <block type="giftregistry/customer_giftregistry_item_options" name="customer.giftregistry.item.options" />
+                    </block>
+                    <block type="giftregistry/customer_giftregistry_item_column_cart" name="customer.giftregistry.item.price" template="giftregistry/item/column/price.phtml">
+                        <action method="setTitle" translate="title">
+                            <title>Price</title>
+                        </action>
+                        <block type="giftregistry/customer_giftregistry_item_options" name="customer.giftregistry.item.options" />
+                    </block>
+                    <block type="giftregistry/customer_giftregistry_item_column_cart" name="customer.giftregistry.item.cart" template="giftregistry/item/column/cart.phtml">
+                        <block type="giftregistry/customer_giftregistry_item_options" name="customer.giftregistry.item.options" />
+                    </block>
+                    <block type="giftregistry/customer_giftregistry_item_column_remove" name="customer.giftregistry.item.remove" template="giftregistry/item/column/remove.phtml" />
+                </block>
+                <block type="core/text_list" name="customer.giftregistry.buttons" as="control_buttons">
+                    <block type="giftregistry/customer_giftregistry_button" name="customer.giftregistry.button.share" template="giftregistry/button/share.phtml" />
+                    <block type="giftregistry/customer_giftregistry_button" name="customer.giftregistry.button.toCart" template="giftregistry/button/tocart.phtml" />
+                    <block type="giftregistry/customer_giftregistry_button" name="customer.giftregistry.button.update" template="giftregistry/button/update.phtml" />
+                </block>
+            </block>
+        </reference>
+        <reference name="right">
+            <action method="unsetChild"><name>giftregistry_customer_sidebar</name></action>
+        </reference>
+    </giftregistry_index_index>
+
+    <giftregistry_index_share translate="label">
+        <label>Customer My Account Gift Registry Sharing Form</label>
+        <!-- Supremecreative_Giftregistry -->
+        <update handle="customer_account" />
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>                                
+        </reference>         
+        <reference name="my.account.wrapper">
+            <block type="giftregistry/customer_sharing" name="giftregistry.sharing" template="giftregistry/sharing.phtml" />
+        </reference>
+        <reference name="right">
+            <action method="unsetChild"><name>giftregistry_customer_sidebar</name></action>
+        </reference>
+    </giftregistry_index_share>
+    
+    <giftregistry_index_configure translate="label">
+        <label>Configure giftregistry Item</label>
+        <update handle="catalog_product_view" />
+        <reference name="product.info">
+            <block type="giftregistry/item_configure" name="product.info.addto" as="addto" template="giftregistry/item/configure/addto.phtml" />
+        </reference>
+        <reference name="product.info.options.wrapper.bottom">
+            <action method="unsetChild"><name>product.info.addto</name></action>
+            <action method="append"><block>product.info.addto</block></action>
+        </reference>
+    </giftregistry_index_configure>    
+
+    <catalog_product_view>
+        <update handle="customer_account" />
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/giftregistry/giftregistry.js</name></action>    
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>                                
+        </reference>         
+        <reference name="product.info.options.wrapper.bottom">
+            <block type="giftregistry/addto" after="product.info.addto" name="giftregistry.addto" as="giftregistryaddto" template="giftregistry/addto.phtml"/>
+        </reference>      
+    </catalog_product_view>
+
+    <giftregistry_shared_index translate="label">
+        <label>Customer Shared Giftregistry View</label>
+        <!-- Supremecreative_Giftregistry -->
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>             
+        </reference>         
+        <reference name="content">
+            <block type="giftregistry/share_giftregistry" name="customer.giftregistry" template="giftregistry/shared.phtml" />
+        </reference>
+    </giftregistry_shared_index>
+    
+    <giftregistry_index_new>
+        <update handle="customer_account" />
+        <reference name="head">
+            <action method="setTitle" translate="title" module="giftregistry"><title>New Gift Registry</title></action>
+            <action method="addJs"><script>lib/pikaday.min.js</script></action> 
+            <action method="addItem"><type>skin_js</type><name>js/giftregistry/giftregistry.js</name></action>  
+            <action method="addCss"><stylesheet>css/giftregistry/pikaday/pikaday.min.css</stylesheet></action> 
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>             
+        </reference>           
+        <reference name="content">
+            <block name="giftregistry.new" type="core/template" template="giftregistry/new.phtml"  as="giftregistry_new"/>
+        </reference>        
+    </giftregistry_index_new> 
+    
+    
+    <giftregistry_index_edit>
+        <update handle="customer_account" />
+        <reference name="head">
+            <action method="setTitle" translate="title" module="giftregistry"><title>Edit Gift Registry</title></action>
+            <action method="addJs"><script>lib/pikaday.min.js</script></action> 
+            <action method="addItem"><type>skin_js</type><name>js/giftregistry/giftregistry.js</name></action>  
+            <action method="addCss"><stylesheet>css/giftregistry/pikaday/pikaday.min.css</stylesheet></action> 
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>             
+        </reference>           
+        <reference name="content">
+            <block name="giftregistry.edit" type="giftregistry/customer_giftregistry" template="giftregistry/edit.phtml"  as="giftregistry_edit">
+                <action method="setTitle" translate="title">
+                    <title>Edit Gift Registry</title>
+                </action>
+            </block>
+        </reference>        
+    </giftregistry_index_edit>           
+    
+</layout>

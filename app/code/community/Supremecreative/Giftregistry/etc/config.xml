@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    Mage
+ * @package     Supremecreative_Giftregistry
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Supremecreative_Giftregistry>
+            <version>0.0.0.0</version>
+        </Supremecreative_Giftregistry>
+    </modules>
+    <global>
+        <blocks>
+            <giftregistry>
+                <class>Supremecreative_Giftregistry_Block</class>
+            </giftregistry>
+        </blocks>
+        <models>
+            <giftregistry>
+                <class>Supremecreative_Giftregistry_Model</class>
+                <resourceModel>giftregistry_resource</resourceModel>
+            </giftregistry>
+            <giftregistry_resource>
+                <class>Supremecreative_Giftregistry_Model_Resource</class>
+                <deprecatedNode>giftregistry_mysql4</deprecatedNode>
+                <entities>
+                    <giftregistry>
+                        <table>giftregistry</table>
+                    </giftregistry>
+                    <item>
+                        <table>giftregistry_item</table>
+                    </item>
+                    <type>
+                        <table>giftregistry_type</table>
+                    </type>                    
+                    <item_option>
+                        <table>giftregistry_item_option</table>
+                    </item_option>
+                </entities>
+            </giftregistry_resource>
+        </models>
+        <helpers>
+            <giftregistry>
+                <class>Supremecreative_Giftregistry_Helper</class>
+            </giftregistry>
+        </helpers>        
+        <resources>
+            <giftregistry_setup>
+                <setup>
+                    <module>Supremecreative_Giftregistry</module>
+                </setup>
+            </giftregistry_setup>
+        </resources>
+        <template>
+            <email>
+                <giftregistry_email_email_template translate="label" module="giftregistry">
+                    <label>Share Giftregistry</label>
+                    <file>giftregistry_share.html</file>
+                    <type>html</type>
+                </giftregistry_email_email_template>
+            </email>
+        </template>
+        <events>
+            <checkout_cart_update_items_before>
+                <observers>
+                    <giftregistry>
+                        <class>giftregistry/observer</class>
+                        <method>processCartUpdateBefore</method>
+                    </giftregistry>
+                </observers>
+            </checkout_cart_update_items_before>
+            <checkout_cart_add_product_complete>
+                <observers>
+                    <giftregistry>
+                        <class>giftregistry/observer</class>
+                        <method>processAddToCart</method>
+                    </giftregistry>
+                </observers>
+            </checkout_cart_add_product_complete>
+        </events>
+        <giftregistry>
+            <item>
+                <product_attributes>
+                    <visibility/>
+                    <url_path/>
+                    <url_key/>
+                </product_attributes>
+            </item>
+        </giftregistry>
+    </global>
+    <frontend>
+        <routers>
+            <giftregistry>
+                <use>standard</use>
+                <args>
+                    <module>Supremecreative_Giftregistry</module>
+                    <frontName>giftregistry</frontName>
+                </args>
+            </giftregistry>
+        </routers>
+        <translate>
+            <modules>
+                <Supremecreative_Giftregistry>
+                    <files>
+                        <default>Supremecreative_Giftregistry.csv</default>
+                    </files>
+                </Supremecreative_Giftregistry>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <giftregistry module="Supremecreative_Giftregistry">
+                    <file>giftregistry.xml</file>
+                </giftregistry>
+            </updates>
+        </layout>
+        <events>
+            <customer_login>
+                <observers>
+                    <giftregistry>
+                        <class>giftregistry/observer</class>
+                        <method>customerLogin</method>
+                    </giftregistry>
+                </observers>
+            </customer_login>
+            <customer_logout>
+                <observers>
+                    <giftregistry>
+                        <class>giftregistry/observer</class>
+                        <method>customerLogout</method>
+                    </giftregistry>
+                </observers>
+            </customer_logout>
+        </events>
+        <secure_url>
+            <giftregistry>/giftregistry/</giftregistry>
+        </secure_url>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Supremecreative_Giftregistry>
+                    <files>
+                        <default>Supremecreative_Giftregistry.csv</default>
+                    </files>
+                </Supremecreative_Giftregistry>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <giftregistry>
+            <general>
+                <active>1</active>
+            </general>
+            <email>
+                <email_identity>general</email_identity>
+                <email_template>giftregistry_email_email_template</email_template>
+            </email>
+        </giftregistry>
+    </default>
+</config>

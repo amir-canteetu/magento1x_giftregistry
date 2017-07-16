@@ -1,0 +1,47 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php if($this->getGiftregistry()->getItemsCount()): ?>
+
+    <?php $_helper = $this->helper('giftregistry'); ?>
+    <?php $_giftRegistryName = urlencode(trim($_helper->getGiftRegistryName()))?>
+    <?php $_giftRegistryMessage = urlencode(trim($_helper->getGiftRegistryMessage()))?>
+    <?php $_giftRegistryImageUrl = urlencode(trim($_helper->getGiftRegistryImageUrl()))?>
+    <?php $_giftRegistryUrl = urlencode(trim($_helper->getGiftRegistryUrl()))?>
+
+    <?php $_u = 'p[url]=' . $_giftRegistryUrl . '&p[images][0]=' . $_giftRegistryImageUrl . '&p[title]=' . $_giftRegistryName . '&p[summary]=' . urlencode(trim($_giftRegistryMessage)); ?>
+    
+    <a href="<?php echo 'http://www.facebook.com/sharer.php?s=100&' . $_u; ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Share On Facebook')) ?>" 
+               class="giftregistry-share facebook_btn-share">
+            <span><span><?php echo $this->__('Share On Facebook') ?></span></span>
+    </a>
+
+    <a href="<?php echo 'http://twitter.com/home?status=' . $_giftRegistryName . '+' . $_giftRegistryUrl; ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Share On Twitter')) ?>" class="giftregistry-share twitter_btn-share"><span><em class="social_share twitter"></em><span><?php echo $this->__('Share On Twitter') ?></span></span></a>
+        
+    <button type="submit" name="save_and_share" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Share Gift Registry')) ?>" class="button btn-share"><span><span><?php echo $this->__('Share By Email') ?></span></span></button>   
+   
+<?php endif;?>

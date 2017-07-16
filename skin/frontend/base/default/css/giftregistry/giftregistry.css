@@ -1,0 +1,447 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02 Jul 2017, 1:25:29 PM
+    Author     : amir
+*/
+    
+    .giftregistry-index-edit #saveregbutton {
+        float: left;
+        margin-left: 0;
+    }
+    
+    body.giftregistry-index-index ul.registry-list-container li {
+        margin-bottom: 35px;
+    }
+    
+    body.giftregistry-index-index p.registry-details {
+        font-weight: bold;
+        padding-bottom: 5px;
+    }
+    
+  body.giftregistry-index-index .title-buttons .button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    }  
+
+    body.giftregistry-index-index .title-buttons {
+        position: relative;
+        text-align: right;
+    }
+
+    body.giftregistry-index-index .title-buttons h1 {
+        text-align: left;
+        border: 0;
+    }
+    
+    .product-view #addToGiftRegistryLink{
+            padding-left: 3px;
+        float: left;
+        margin-top: 3px;
+        margin-right: 15px;
+    }
+    
+    .product-view .add-to-links {
+    border-right: 1px solid #cccccc;
+    margin-right: 5px !important;
+
+}
+
+#custom_event_type_id {
+    display: none;
+}
+
+
+
+.product-view .sharing-links a.link-giftregistry {
+  background-position: 0px -225px;
+}
+
+.block-related .link-giftregistry {
+  display: none;
+}
+
+#saveregbutton {
+    float: left;
+    margin-left: 0;
+}
+
+/* ============================================ *
+ * Giftregistry
+ * ============================================ */
+#giftregistry-table th {
+  text-align: center;
+}
+#giftregistry-table.clean-table {
+  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  width: 100%;
+}
+#giftregistry-table.clean-table th {
+  border-bottom: 1px solid silver;
+}
+#giftregistry-table.clean-table td {
+  padding: 15px;
+  vertical-align: top;
+}
+#giftregistry-table.clean-table thead th {
+  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.giftregistry-index-index #giftregistry-table .product-name {
+  font-size: 16px;
+  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+.giftregistry-index-index #giftregistry-table .product-name a {
+  color: #3399cc;
+}
+#giftregistry-table .giftregistry-sku {
+  font-size: 11px;
+  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  margin: 5px 0;
+}
+#giftregistry-table textarea {
+  border: 1px solid silver;
+  width: 100%;
+  height: 45px;
+  font-size: 11px;
+  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+}
+#giftregistry-table textarea::-webkit-input-placeholder {
+  text-transform: uppercase;
+}
+#giftregistry-table textarea:-moz-placeholder {
+  text-transform: uppercase;
+}
+#giftregistry-table textarea::-moz-placeholder {
+  text-transform: uppercase;
+}
+#giftregistry-table textarea:-ms-input-placeholder {
+  text-transform: uppercase;
+}
+#giftregistry-table textarea:focus {
+  border: 1px solid #3399cc;
+}
+#giftregistry-table .item-manage {
+  text-align: right;
+  max-width: 450px;
+  padding-top: 5px;
+}
+#giftregistry-table .item-manage .button {
+  font-size: 11px;
+  padding: 3px 5px;
+}
+#giftregistry-table .cart-cell {
+  text-align: center;
+}
+#giftregistry-table td.customer-giftregistry-item-image {
+  width: 113px;
+}
+#giftregistry-table td.customer-giftregistry-item-quantity {
+  width: 3em;
+}
+#giftregistry-table td.customer-giftregistry-item-price {
+  width: 120px;
+  text-align: center;
+}
+#giftregistry-table td.customer-giftregistry-item-cart {
+  width: 150px;
+}
+#giftregistry-table td.customer-giftregistry-item-cart .button {
+  font-size: 12px;
+  margin-bottom: 10px;
+  padding: 3px 5px;
+  width: 100%;
+}
+#giftregistry-table td.customer-giftregistry-item-cart .truncated {
+  margin-bottom: 10px;
+}
+#giftregistry-table td.customer-giftregistry-item-cart > p {
+  margin-bottom: 0;
+}
+#giftregistry-table td.customer-giftregistry-item-cart .remove-whishlist-item {
+  text-align: center;
+}
+#giftregistry-table td.customer-giftregistry-item-cart .btn-remove {
+  vertical-align: top;
+}
+#giftregistry-table td.customer-giftregistry-item-remove {
+  width: 20px;
+}
+.giftregistry-index-index #giftregistry-table td .button,
+.giftregistry-index-index #giftregistry-table td button {
+  white-space: normal;
+}
+#giftregistry-table .price-box {
+  font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-size: 12px;
+}
+.giftregistry-index-index #giftregistry-table .price-box .price {
+  color: #636363;
+}
+#giftregistry-table .giftregisty-add {
+  margin-top: 5px;
+}
+#giftregistry-table .giftregisty-add .change {
+  display: none;
+}
+#giftregistry-table .giftregisty-add li {
+  cursor: pointer;
+  color: #3399cc;
+  margin-bottom: 3px;
+}
+#giftregistry-table .truncated .details {
+  background: none;
+  color: #3399cc;
+}
+#giftregistry-table td[data-rwd-label]:before {
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 1199px) {
+  #giftregistry-table.clean-table td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media only screen and (max-width: 979px) {
+  #giftregistry-table.clean-table td {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  #giftregistry-table.clean-table td textarea {
+    height: 100px;
+  }
+  #giftregistry-table.clean-table td.customer-giftregistry-item-cart {
+    width: 110px;
+  }
+  #giftregistry-table .product-name {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-width: 770px) {
+  #giftregistry-table:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+  #giftregistry-table .product-name {
+    font-size: 16px;
+  }
+  #giftregistry-table textarea {
+    height: 68px;
+    max-width: 100%;
+  }
+  #giftregistry-table .item-manage {
+    max-width: 100%;
+  }
+  #giftregistry-table tr {
+    position: relative;
+  }
+  #giftregistry-table tr:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+  #giftregistry-table td.customer-giftregistry-item-image {
+    width: 70px;
+  }
+  #giftregistry-table td.customer-giftregistry-item-image img {
+    width: 70px;
+    height: 70px;
+  }
+  #giftregistry-table td.customer-giftregistry-item-cart p {
+    margin-bottom: 0;
+  }
+  #giftregistry-table td.customer-giftregistry-item-cart .remove-whishlist-item {
+    margin-right: 0;
+    padding-top: 4px;
+  }
+  #giftregistry-table td.customer-giftregistry-item-cart {
+    padding-right: 15px;
+  }
+}
+@media only screen and (max-width: 599px) {
+  #giftregistry-table td.customer-giftregistry-item-quantity {
+    padding-left: 0;
+  }
+  #giftregistry-table td.customer-giftregistry-item-image,
+  #giftregistry-table th.customer-giftregistry-item-image {
+    display: none;
+  }
+}
+@media only screen and (max-width: 479px) {
+  #giftregistry-table tr {
+    position: relative;
+  }
+  #giftregistry-table th.customer-giftregistry-item-image {
+    display: block;
+  }
+  #giftregistry-table td.customer-giftregistry-item-image, #giftregistry-table td.customer-giftregistry-item-info, #giftregistry-table td.customer-giftregistry-item-quantity, #giftregistry-table td.customer-giftregistry-item-price, #giftregistry-table td.customer-giftregistry-item-cart {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    empty-cells: hide;
+  }
+  #giftregistry-table td.customer-giftregistry-item-image {
+    display: block;
+    overflow: hidden;
+  }
+  #giftregistry-table td.customer-giftregistry-item-image a {
+    float: left;
+  }
+  #giftregistry-table td.customer-giftregistry-item-image a img {
+    width: 113px;
+    height: 113px;
+  }
+  #giftregistry-table td.customer-giftregistry-item-quantity, #giftregistry-table td.customer-giftregistry-item-price {
+    text-align: left;
+  }
+  #giftregistry-table td.customer-giftregistry-item-quantity:before, #giftregistry-table td.customer-giftregistry-item-price:before {
+    float: left;
+    margin-right: 15px;
+  }
+  #giftregistry-table td.customer-giftregistry-item-quantity .cart-cell, #giftregistry-table td.customer-giftregistry-item-price .cart-cell {
+    text-align: left;
+  }
+  #giftregistry-table td.customer-giftregistry-item-quantity .price-box, #giftregistry-table td.customer-giftregistry-item-price .price-box {
+    margin-top: 0;
+  }
+  #giftregistry-table td.customer-giftregistry-item-cart .cart-cell {
+    float: left;
+    width: 48%;
+  }
+  #giftregistry-table td.customer-giftregistry-item-cart > p {
+    float: right;
+    width: 48%;
+  }
+  #giftregistry-table td.customer-giftregistry-item-remove {
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    display: block;
+    padding: 0px;
+    height: 20px;
+  }
+  #giftregistry-table.clean-table td.customer-giftregistry-item-cart {
+    width: 100%;
+  }
+}
+/* ============================================ *
+ * Giftregistry Sidebar
+ * ============================================ */
+.block-giftregistry .mini-products-list > li:not(:last-child) {
+  padding-bottom: 5px;
+}
+.block-giftregistry .product-details .product-name {
+  padding-top: 0;
+  margin-bottom: 5px;
+}
+.block-giftregistry .price-box {
+  float: left;
+  margin: 0;
+}
+.block-giftregistry .price-box,
+.block-giftregistry .price-box .price,
+.block-giftregistry .link-cart {
+  font-size: 12px;
+}
+.block-giftregistry .link-cart {
+  float: left;
+  text-transform: uppercase;
+  margin-right: 7px;
+  padding-right: 7px;
+  border-right: 1px solid #ededed;
+}
+
+
+
+
+/* ============================================ *
+ * giftregistry/index/
+ * ============================================ */
+div.registry_img_display {
+    margin-bottom: 20px;        
+}
+
+div.registry_info h3{
+    margin-bottom: 0;    
+    margin-top: 10px;
+}
+
+div.registry_info span{
+    font-weight: bold;       
+}
+    
+p.registry_info {
+    margin-bottom: 4px;
+}    
+
+.giftregistry_share_buttons button.twitter_btn-share{
+
+}
+
+.giftregistry_share_buttons em.social_share{
+
+}
+
+.giftregistry_share_buttons em.twitter{
+
+}
+
+.giftregistry-shared-index {
+    
+}
+
+.giftregistry-shared-index .giftregistry_msg{
+   padding: 15px;
+    margin-top: 10px; 
+}
+.giftregistry-empty {
+    color: #3399cc;
+}
+
+.giftregistry-index-index a.giftregistry-share {
+ float: right;
+  color: #FFFFFF; 
+  margin-left: 5px;
+  min-width: 140px;
+  padding: 7px 15px !important;
+font-size: 13px;
+font-weight: normal;
+font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+line-height: 19px !important;
+text-align: center;
+text-transform: uppercase;
+vertical-align: middle;
+white-space: nowrap;
+cursor: pointer;
+}
+
+.giftregistry-index-index a.giftregistry-share:hover {
+  text-decoration: none;  
+}
+
+.giftregistry-index-index a.facebook_btn-share {
+ background-color: #4e69a2;   
+}
+
+.giftregistry-index-index a.facebook_btn-share:hover {
+ background-color: #3b5998;   
+}
+
+.giftregistry-index-index a.twitter_btn-share {
+background-color: #4AB3F4;   
+}
+
+.giftregistry-index-index a.twitter_btn-share:hover {
+background-color: #1DA1F2;   
+}
