@@ -91,6 +91,7 @@ class Supremecreative_Giftregistry_SharedController extends Supremecreative_Gift
             if (Mage::helper('checkout/cart')->getShouldRedirectToCart()) {
                 $redirectUrl = Mage::helper('checkout/cart')->getCartUrl();
             }
+            $session->setSharedGiftRegistry($giftregistry);
         } catch (Mage_Core_Exception $e) {
             if ($e->getCode() == Supremecreative_Giftregistry_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(Mage::helper('giftregistry')->__('This product(s) is currently out of stock'));

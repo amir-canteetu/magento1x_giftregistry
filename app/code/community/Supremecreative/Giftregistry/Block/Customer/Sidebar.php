@@ -67,6 +67,19 @@ class Supremecreative_Giftregistry_Block_Customer_Sidebar extends Supremecreativ
      */
     protected function _toHtml()
     {
+        
+        $giftregistryId = $this->_getHelper()->getGiftregistry();
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        
+        if($customerId != $giftregistryId) {
+            
+            $giftregistry = Mage::getModel('giftregistry/giftregistry')->load($customerId, 'customer_id');
+            if($customerId != $giftregistry->getId) {
+                return;
+            }
+
+        }
+        
         if ($this->getItemCount()) {
             return parent::_toHtml();
         }

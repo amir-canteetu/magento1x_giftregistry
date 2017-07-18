@@ -163,6 +163,7 @@ Giftregistry pages
         <reference name="content">
             <block type="giftregistry/share_giftregistry" name="customer.giftregistry" template="giftregistry/shared.phtml" />
         </reference>
+     
     </giftregistry_shared_index>
     
     <giftregistry_index_new>
@@ -196,6 +197,16 @@ Giftregistry pages
                 </action>
             </block>
         </reference>        
-    </giftregistry_index_edit>           
+    </giftregistry_index_edit> 
     
+    <checkout_onepage_index>
+        <reference name="checkout.onepage.billing">
+            <action method="setTemplate"><template>giftregistry/persistent/checkout/onepage/billing.phtml</template></action>
+        </reference>
+
+        <reference name="checkout.onepage.shipping">
+            <action method="setTemplate"><template>giftregistry/checkout/onepage/shipping.phtml</template></action>
+        </reference>      
+    </checkout_onepage_index>                        
+          
 </layout>

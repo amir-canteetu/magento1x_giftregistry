@@ -75,6 +75,20 @@ class Supremecreative_Giftregistry_Block_Links extends Mage_Page_Block_Template_
      */
     protected function _getItemCount()
     {
+
+        $giftregistryId = $this->helper('giftregistry')->getGiftregistry();
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        
+        if($customerId != $giftregistryId) {
+            
+            $giftregistry = Mage::getModel('giftregistry/giftregistry')->load($customerId, 'customer_id');
+            if($customerId != $giftregistry->getId) {
+                return;
+            }
+
+        }        
+        
+        
         return $this->helper('giftregistry')->getItemCount();
     }
 

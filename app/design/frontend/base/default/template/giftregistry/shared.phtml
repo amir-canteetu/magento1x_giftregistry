@@ -38,7 +38,8 @@
                     <img id="registry_img_display" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $giftregistryInstance->getBannerImg(); ?>" alt="<?php echo null !== $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?>" height="260" width="680"> 
                 </div>
             <?php endif; ?>
-    
+
+  
     <?php endif; ?>   
     
     <?php if ($this->hasGiftregistryItems()): ?>
@@ -46,6 +47,15 @@
     <div class="giftregistry_msg">
         <blockquote><?php echo $this->escapeHtml($giftregistryInstance->getEventMessage()) ?></blockquote>
     </div>
+    
+     <div class="giftregistry_info">
+        <ul>
+            <li><span>Event:</span> <?php echo $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?></li>
+            <li><span>Date Of Event:</span> <?php echo $giftregistryInstance->getEventDate() ? $giftregistryInstance->getEventDate() : ''; ?></li>
+            <li><span>Venue:</span> <?php echo $giftregistryInstance->getEventLocation() ? $giftregistryInstance->getEventLocation() : ''; ?></li>
+            <li><span>Number Of Guests:</span> <?php echo $giftregistryInstance->getNumberGuests() ? $giftregistryInstance->getNumberGuests() : ''; ?></li>
+        </ul>
+    </div>                      
     
     <form action="<?php echo $this->getUrl('*/*/update') ?>" method="post">
         <div class="fieldset">

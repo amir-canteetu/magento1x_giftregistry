@@ -55,8 +55,6 @@ and open the template in the editor.
     display: none;
 }
 
-
-
 .product-view .sharing-links a.link-giftregistry {
   background-position: 0px -225px;
 }
@@ -413,8 +411,8 @@ p.registry_info {
  float: right;
   color: #FFFFFF; 
   margin-left: 5px;
-  min-width: 140px;
-  padding: 7px 15px !important;
+  min-width: 110px !important;
+  padding: 7px 5px !important;
 font-size: 13px;
 font-weight: normal;
 font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
@@ -426,6 +424,12 @@ white-space: nowrap;
 cursor: pointer;
 }
 
+.giftregistry-index-index button.btn-update {
+float: left !important;
+    margin-left: 0 !important;
+    min-width: 110px !important;
+    padding: 7px 5px;
+}
 .giftregistry-index-index a.giftregistry-share:hover {
   text-decoration: none;  
 }
@@ -444,4 +448,23 @@ background-color: #4AB3F4;
 
 .giftregistry-index-index a.twitter_btn-share:hover {
 background-color: #1DA1F2;   
+}
+
+.giftregistry-index-index a.link_btn-share {
+background-color: #4AB3F4;   
+}
+
+.giftregistry-index-index a.link_btn-share:hover {
+background-color: #1DA1F2;   
+}
+
+
+
+.giftregistry-shared-index div.giftregistry_info {
+padding: 0 15px 15px 15px;
+
+}
+
+.giftregistry-shared-index div.giftregistry_info  span{
+font-weight: bold;
 }

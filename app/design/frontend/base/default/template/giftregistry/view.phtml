@@ -45,7 +45,7 @@
             <?php if ($giftregistryInstance->getBannerImg()) : ?> 
             
                 <div class="registry_img_display">
-                    <img id="registry_img_display" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $giftregistryInstance->getBannerImg(); ?>" alt="<?php echo null !== $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?>" height="400" width="600"> 
+                    <img id="registry_img_display" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $giftregistryInstance->getBannerImg(); ?>" alt="<?php echo null !== $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?>" height="260" width="680">  
                 </div>
             
             <?php endif; ?>
@@ -54,47 +54,48 @@
                     <p class="registry_info"><span><?php echo $this->__('Event Name') ?></span>: <?php echo $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : '' ?></p> 
                     <p class="registry_info"><span><?php echo $this->__('Event Location') ?></span>: <?php echo $giftregistryInstance->getEventLocation() ? $giftregistryInstance->getEventLocation() : '' ?></p> 
                     <p class="registry_info"><span><?php echo $this->__('Number Of Guests') ?></span>: <?php echo $giftregistryInstance->getNumberGuests() ? $giftregistryInstance->getNumberGuests() : '' ?></p> 
-                    <p class="registry_info"><span><?php echo $this->__('Gift Registry Sharing Code') ?></span>: <?php echo $giftregistryInstance->getSharingCode() ? $giftregistryInstance->getSharingCode() : '' ?></p> 
+                    <!-- <p class="registry_info"><span><?php /* echo $this->__('Gift Registry Sharing Code') ?></span>: <?php echo $giftregistryInstance->getSharingCode() ? $giftregistryInstance->getSharingCode() : '' */?></p> --> 
                     <p class="registry_info"><span><?php echo $this->__('Message') ?></span>: <?php echo $giftregistryInstance->getEventMessage() ? $giftregistryInstance->getEventMessage() : '' ?></p> 
                     
-                    <?php if ($shipping = json_decode($giftregistryInstance->getShipping(), true) ) : ?>
+                    <?php /* if ($shipping = json_decode($giftregistryInstance->getShipping(), true) ) : ?>
                     
-                        <h3><?php echo $this->__('Shipping Details') ?></h3>
-                    
-                        <p class="registry_info"><span><?php echo $this->__('Recipient:') ?></span>
-                            
-                        <?php 
-                            echo isset($shipping["firstname"]) ? $shipping["firstname"] .' ' : '';
-                            echo isset($shipping["middlename"]) ? $shipping["middlename"] .' '  : '';
-                            echo isset($shipping["lastname"]) ? $shipping["lastname"] .' '  : '';
-                        ?>
+                                <h3><?php echo $this->__('Shipping Details') ?></h3>
 
-                        </p> 
-                        
-                        <p class="registry_info"><span><?php echo $this->__('Delivery Address:') ?></span>
-                        <?php
-                            echo isset($shipping["street_1"]) ? $shipping["street_1"] .' ' : '';
-                            echo isset($shipping["street_2"]) ? $shipping["street_2"] .' ' : '';
-                            echo isset($shipping["city"]) ? $shipping["city"] .' ' : '';
-                            echo isset($shipping["region"]) ? $shipping["region"] .' ' : '';
-                            echo isset($shipping["postcode"]) ? $shipping["postcode"] .' ' : '';
-                            echo isset($shipping["country_id"]) ? $shipping["country_id"] .' ' : '';
-                        ?>                            
-                        </p>
-                        
-                        <p class="registry_info"><span><?php echo $this->__('Telephone:') ?></span>
-                        <?php
-                            echo isset($shipping["telephone"]) ? $shipping["telephone"] : '';
-                        ?>                            
-                        </p>                        
+                                <p class="registry_info"><span><?php echo $this->__('Recipient:') ?></span>
+
+                                <?php 
+                                    echo isset($shipping["firstname"]) ? $shipping["firstname"] .' ' : '';
+                                    echo isset($shipping["middlename"]) ? $shipping["middlename"] .' '  : '';
+                                    echo isset($shipping["lastname"]) ? $shipping["lastname"] .' '  : '';
+                                ?>
+
+                                </p> 
+
+                                <p class="registry_info"><span><?php echo $this->__('Delivery Address:') ?></span>
+                                <?php
+                                    echo isset($shipping["street_1"]) ? $shipping["street_1"] .' ' : '';
+                                    echo isset($shipping["street_2"]) ? $shipping["street_2"] .' ' : '';
+                                    echo isset($shipping["city"]) ? $shipping["city"] .' ' : '';
+                                    echo isset($shipping["region"]) ? $shipping["region"] .' ' : '';
+                                    echo isset($shipping["postcode"]) ? $shipping["postcode"] .' ' : '';
+                                    echo isset($shipping["country_id"]) ? $shipping["country_id"] .' ' : '';
+                                ?>                            
+                                </p>
+
+                                <p class="registry_info"><span><?php echo $this->__('Telephone:') ?></span>
+                                <?php
+                                    echo isset($shipping["telephone"]) ? $shipping["telephone"] : '';
+                                ?>                            
+                                </p>                        
                     
-                    <?php endif; ?> 
-                        <p class="registry_info"><span><a class="editgiftregistry button" href="<?php echo $this->getUrl('giftregistry/index/edit/') ?>"><?php echo $this->__('Edit Gift Registry Details') ?></a></span></p>
-                </div>            
+                            <?php endif; */?> 
+                        
+                                <p class="registry_info"><span><a class="editgiftregistry button" href="<?php echo $this->getUrl('giftregistry/index/edit/') ?>"><?php echo $this->__('Edit Gift Registry Details') ?></a></span></p>
+                            </div>            
             
-        </div>
+                        </div>
         
-<?php endif; ?>        
+                    <?php endif;  ?>        
 
         <form id="giftregistry-view-form" action="<?php echo $this->getUrl('*/*/update', array('giftregistry_id' => $this->getGiftregistryInstance()->getId())) ?>" method="post">
             <?php echo $this->getChildHtml('top'); ?>

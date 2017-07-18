@@ -36,6 +36,11 @@
             <giftregistry>
                 <class>Supremecreative_Giftregistry_Block</class>
             </giftregistry>
+            <checkout>
+                <rewrite>
+                        <onepage_shipping>Supremecreative_Giftregistry_Block_Onepage_Shipping</onepage_shipping>
+                </rewrite>
+            </checkout>            
         </blocks>
         <models>
             <giftregistry>
