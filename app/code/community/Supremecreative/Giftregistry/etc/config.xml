@@ -47,6 +47,11 @@
                 <class>Supremecreative_Giftregistry_Model</class>
                 <resourceModel>giftregistry_resource</resourceModel>
             </giftregistry>
+            <checkout>
+                <rewrite>
+                    <onepage>Supremecreative_Giftregistry_Model_Type_Onepage</onepage>
+                </rewrite>
+            </checkout>               
             <giftregistry_resource>
                 <class>Supremecreative_Giftregistry_Model_Resource</class>
                 <deprecatedNode>giftregistry_mysql4</deprecatedNode>
