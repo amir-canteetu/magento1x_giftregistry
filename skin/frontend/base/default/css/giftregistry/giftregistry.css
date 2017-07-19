@@ -405,6 +405,8 @@ p.registry_info {
 }
 .giftregistry-empty {
     color: #3399cc;
+    font-size: 16px;
+    margin-top: 15px;
 }
 
 .giftregistry-index-index a.giftregistry-share {

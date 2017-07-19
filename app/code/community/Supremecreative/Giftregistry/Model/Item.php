@@ -365,28 +365,28 @@ class Supremecreative_Giftregistry_Model_Item extends Mage_Core_Model_Abstract
     {
         $product = $this->getProduct();
         $storeId = $this->getStoreId();
-
+Mage::log('addToCart: 368');
         if ($product->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
             return false;
         }
-
+Mage::log('addToCart: 372');
         if (!$product->isVisibleInSiteVisibility()) {
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
         }
-
+Mage::log('addToCart: 378');
         if (!$product->isSalable()) {
             throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_NOT_SALABLE);
         }
-
+Mage::log('addToCart: 382');
         $buyRequest = $this->getBuyRequest();
-
+Mage::log('addToCart: 384');
         $cart->addProduct($product, $buyRequest);
         if (!$product->isVisibleInSiteVisibility()) {
             $cart->getQuote()->getItemByProduct($product)->setStoreId($storeId);
         }
-
+Mage::log('addToCart: 389');
         if ($delete) {
             $this->delete();
         }

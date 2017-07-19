@@ -60,17 +60,13 @@
                     <?php /* if ($shipping = json_decode($giftregistryInstance->getShipping(), true) ) : ?>
                     
                                 <h3><?php echo $this->__('Shipping Details') ?></h3>
-
                                 <p class="registry_info"><span><?php echo $this->__('Recipient:') ?></span>
-
                                 <?php 
                                     echo isset($shipping["firstname"]) ? $shipping["firstname"] .' ' : '';
                                     echo isset($shipping["middlename"]) ? $shipping["middlename"] .' '  : '';
                                     echo isset($shipping["lastname"]) ? $shipping["lastname"] .' '  : '';
                                 ?>
-
                                 </p> 
-
                                 <p class="registry_info"><span><?php echo $this->__('Delivery Address:') ?></span>
                                 <?php
                                     echo isset($shipping["street_1"]) ? $shipping["street_1"] .' ' : '';
@@ -81,7 +77,6 @@
                                     echo isset($shipping["country_id"]) ? $shipping["country_id"] .' ' : '';
                                 ?>                            
                                 </p>
-
                                 <p class="registry_info"><span><?php echo $this->__('Telephone:') ?></span>
                                 <?php
                                     echo isset($shipping["telephone"]) ? $shipping["telephone"] : '';
@@ -126,7 +121,6 @@
         //<![CDATA[
             var giftregistryForm = new Validation($('giftregistry-view-form'));
             var giftregistryAllCartForm = new Validation($('giftregistry-allcart-form'));
-
             function calculateQty() {
                 var itemQtys = new Array();
                 $$('#giftregistry-view-form .qty').each(
@@ -136,10 +130,8 @@
                         itemQtys[idx] = input.value;
                     }
                 );
-
                 $$('#qty')[0].value = JSON.stringify(itemQtys);
             }
-
             function addAllWItemsToCart() {
                 calculateQty();
                 giftregistryAllCartForm.form.submit();

@@ -208,9 +208,24 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
             $this->_redirect('*/');
             return;
         }
-
+        
+        //If product is configurable, check if options have been set. If not, don't add to giftregistry
+        $buyRequest = new Varien_Object($requestParams);
+        $attributes = $buyRequest->getSuperAttribute();
+        if (is_array($attributes)) {
+            foreach ($attributes as $key => $val) {
+                if (empty($val)) {
+                    unset($attributes[$key]);
+                }
+            }
+        }   
+        
+        if (empty($attributes)) {
+            Mage::getSingleton('core/session')->addNotice('Please specify the product\'s option(s).');
+            return $this->_redirectReferer();
+        } 
+           
         try {
-            $buyRequest = new Varien_Object($requestParams);
 
             $result = $giftregistry->addNewItem($product, $buyRequest);
             if (is_string($result)) {

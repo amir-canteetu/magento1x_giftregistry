@@ -29,7 +29,7 @@
 <?php $_giftRegistrySubmitUrl = $this->helper('giftregistry')->getAddUrl($_product); ?>
 
 <span id="addToGiftRegistryLink">
-      <a href="<?php echo $_giftRegistrySubmitUrl ?>" title="Add To Gift Registry" class="" ><span><span><?php echo $this->__('Add To Gift Registry') ?></span></span></a>              
+    <a href="<?php echo $_giftRegistrySubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" title="Add To Gift Registry" class="" ><span><span><?php echo $this->__('Add To Gift Registry') ?></span></span></a>              
 </span>
 
 
