@@ -20,7 +20,7 @@
 
 <?php $helper = Mage::helper('giftregistry'); ?>
 <?php $sessionFormData = Mage::getSingleton('core/session')->getGiftRegistryFormData(); ?>
-<?php $defaultShippingAddress = $helper->getDefaultShippingAddress(); ?>
+<?php $shipping = Mage::getBlockSingleton('giftregistry/onepage_shipping'); ?>
 
 <h2 class="legend"><?php echo $this->__('Create New Gift Registry') ?></h2> 
 
@@ -54,19 +54,19 @@
                     <div class="input-box">                        
                         <input type="text" name="custom_event_type" id="custom_event_type" placeholder="Event Type" class="input-text" value="<?php echo isset($sessionFormData["custom_event_type_id"]) ?  $sessionFormData["custom_event_type_id"] : ''; ?>" title="Event Type"/>                                                 
                     </div>                   
-                </div>                 
+                </div> 
                 
                 <div class="field">
-                <label for="event_name" class="required"><em>*</em><?php echo $this->__('Registry Name') ?></label>                    
+                <label for="owner" class="required"><em>*</em><?php echo $this->__('Registrant\'s Name(s)') ?></label>                    
                     <div class="input-box">                        
-                        <input type="text" name="event_name" id="event_name" placeholder="Registry Name" class="input-text required-entry" value="<?php echo isset($sessionFormData["event_name"]) ?  $sessionFormData["event_name"] : ''; ?>" title="Registry Name"/>                                                 
+                        <input type="text" name="owner" id="owner" placeholder="Registrant's Name(s)" class="input-text required-entry" value="<?php echo isset($sessionFormData["owner"]) ?  $sessionFormData["owner"] : ''; ?>" title="Registrant's Name(s)"/>                                                 
                     </div>                   
-                </div>   
+                </div>                 
 
                 <div class="field">
                 <label for="registry_img"><?php echo $this->__('Image') ?></label>                    
                     <div class="input-box">                        
-                        <input type="file" accept="image/*" name="registry_img" id="registry_img_input" class="input-text required-entry" value="<?php echo isset($sessionFormData["registry_img"]) ?  $sessionFormData["registry_img"] : ''; ?>" title="Image Upload">                                            
+                        <input type="file" accept="image/*" name="registry_img" id="registry_img_input" class="input-text" value="<?php echo isset($sessionFormData["registry_img"]) ?  $sessionFormData["registry_img"] : ''; ?>" title="Image Upload">                                            
                     </div>                   
                 </div>
 
@@ -111,131 +111,18 @@
     <div class="fieldset">
         
         <h2 class="legend"><?php echo $this->__('SHIPPING DETAILS') ?></h2>
-        <ul class="form-list">
-               
-            <?php if(isset($sessionFormData["firstname"]) || isset($sessionFormData["lastname"]) ||  isset($sessionFormData["middlename"])): ?> 
-            
-            <div class="customer-name-middlename">
-                <li class="fields">
-                    <div class="field name-firstname">
-                        <label for="firstname" class="required"><em>*</em><?php echo $this->__('First Name') ?></label>
-                        <div class="input-box">
-                            <input type="text" name="firstname" value="<?php echo isset($sessionFormData["firstname"]) ? $sessionFormData["firstname"] : ''; ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('First Name')) ?>" class="input-text required-entry" id="firstname" />
-                        </div>
-                    </div>
-                     <div class="field name-middlename">
-                        <label for="middlename" class="required"><em>*</em><?php echo $this->__('Middle Name/Initial') ?></label>
-                        <div class="input-box">
-                            <input type="text" name="middlename" value="<?php echo isset($sessionFormData["middlename"]) ? $sessionFormData["middlename"] : ''; ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Middle Name/Initial')) ?>" class="input-text" id="middlename" />
-                        </div>
-                    </div>
-                    <div class="field name-lastname">
-                        <label for="lastname" class="required"><em>*</em><?php echo $this->__('Last Name') ?></label>
-                        <div class="input-box">
-                            <input type="text" name="lastname" value="<?php echo isset($sessionFormData["lastname"]) ? $sessionFormData["lastname"] : '' ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Last Name')) ?>" class="input-text required-entry" id="lastname" />
-                        </div>
-                    </div>                    
-                </li>         
-            </div>  
-            
-            <?php else: ?>
-                
-            <li class="fields">
-                <?php echo $helper->getNameBlockHtml() ?>
-            </li>
-            
-            <?php endif ?>
-            
-            <li class="fields">
-                <div class="field">
-                    <label for="telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
-                    <div class="input-box">
-                        <?php if($defaultShippingAddress): ?>
-                            <input type="text" name="telephone" value="<?php echo $sessionFormData["telephone"] ? $sessionFormData["telephone"] : $this->escapeHtml($defaultShippingAddress->getTelephone()); ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Telephone')) ?>" class="input-text <?php echo $helper->getAddressEditBlock()->helper('customer/address')->getAttributeValidationClass('telephone') ?>" id="telephone" />
-                        <?php else: ?>
-                            <input type="text" name="telephone" value="<?php echo $sessionFormData["telephone"] ? $sessionFormData["telephone"] : ''; ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Telephone')) ?>" class="input-text <?php echo $helper->getAddressEditBlock()->helper('customer/address')->getAttributeValidationClass('telephone') ?>" id="telephone" />
-                        <?php endif ?>
-                    </div>
-                </div>
-            </li>
-
-        <?php $_streetValidationClass = Mage::helper('customer/address')->getAttributeValidationClass('street'); ?>
-
-        <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
-            
+        <ul class="form-list">    
+        <?php if ($shipping->customerHasAddresses()): ?>
+        <li class="wide">
+            <label for="billing-address-select"><?php echo $this->__('Select a shipping address from your address book.') ?></label>
+            <div class="input-box">
+                <?php echo $shipping->getShippingAddressesHtmlSelect('shipping') ?>
+            </div>
+        </li>
+        <?php endif; ?>
+         </ul>
+    </div>
         
-            <li class="wide">
-                <label for="street_1"><?php echo $this->__('Street Address') ?></label>
-                <div class="input-box">
-                    <?php if($defaultShippingAddress): ?>
-                        <input type="text" name="street_1" value="<?php echo isset($sessionFormData["street_1"]) ? $sessionFormData["street_1"] : $this->escapeHtml($defaultShippingAddress->getStreet(1))  ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Street Address')) ?>" id="street_1" class="input-text <?php echo $_streetValidationClass ?>" />
-                    <?php else: ?>
-                        <input type="text" name="street_1" value="<?php echo isset($sessionFormData["street_1"]) ? $sessionFormData["street_1"] : '';  ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Street Address')) ?>" id="street_1" class="input-text <?php echo $_streetValidationClass ?>" />
-                    <?php endif ?>    
-                </div>
-            </li>
-
-            <li class="wide">
-                <label for="street_2"><?php echo $this->__('Street Address 2') ?></label>
-                <div class="input-box">
-                    <?php if($defaultShippingAddress): ?>
-                        <input type="text" name="street_2" value="<?php echo isset($sessionFormData["street_2"]) ? $sessionFormData["street_2"] : $this->escapeHtml($defaultShippingAddress->getStreet(2))  ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Street Address')) ?>" id="street_2" class="input-text <?php echo $_streetValidationClass ?>" />
-                    <?php else: ?>
-                        <input type="text" name="street_2" value="<?php echo isset($sessionFormData["street_2"]) ? $sessionFormData["street_2"] : '' ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Street Address')) ?>" id="street_2" class="input-text <?php echo $_streetValidationClass ?>" />
-                    <?php endif ?>                         
-                </div>
-            </li>
-            
-            <li class="fields">
-                <div class="field">
-                    <label for="city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
-                    <div class="input-box">
-                    <?php if($defaultShippingAddress): ?>
-                        <input type="text" name="city" title="City" value="<?php echo isset($sessionFormData["city"]) ? $sessionFormData["city"] : $this->escapeHtml($defaultShippingAddress->getCity()) ?>" class="input-text <?php echo Mage::helper('customer/address')->getAttributeValidationClass('city') ?>" id="city" />
-                    <?php else: ?>
-                        <input type="text" name="city" title="City" value="<?php echo isset($sessionFormData["city"]) ? $sessionFormData["city"] : '' ?>" class="input-text <?php echo Mage::helper('customer/address')->getAttributeValidationClass('city') ?>" id="city" />
-                    <?php endif ?> 
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
-                    <div class="input-box">
-                        <?php if($defaultShippingAddress): ?>
-                            <select id="region_id" name="region_id" title="<?php echo Mage::helper('core')->quoteEscape($this->__('State/Province')) ?>" class="validate-select" style="display:none;">
-                               <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
-                            </select>
-                            <script type="text/javascript">
-                            //<![CDATA[
-                                $('region_id').setAttribute('defaultValue',  "<?php echo $defaultShippingAddress->getRegionId() ?>");
-                            //]]>
-                            </script>
-                            <input type="text" id="region" name="region" value="<?php echo $this->escapeHtml($defaultShippingAddress->getRegion()) ?>"  title="<?php echo Mage::helper('core')->quoteEscape($this->__('State/Province')) ?>" class="input-text <?php echo Mage::helper('customer/address')->getAttributeValidationClass('region') ?>" />
-                        <?php else: ?>   
-                            <input type="text" id="region" name="region" value="<?php echo isset($sessionFormData["region"]) ? $sessionFormData["region"] : '' ?>"  title="<?php echo Mage::helper('core')->quoteEscape($this->__('State/Province')) ?>" class="input-text <?php echo Mage::helper('customer/address')->getAttributeValidationClass('region') ?>" />  
-                        <?php endif ?>    
-                    </div>
-                </div>
-            </li>
-            <li class="fields">
-                <div class="field">
-                    <label for="zip" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
-                    <div class="input-box">
-                    <?php if($defaultShippingAddress): ?>    
-                        <input type="text" name="postcode" value="<?php echo isset($sessionFormData["postcode"]) ? $sessionFormData["postcode"] : $this->escapeHtml($defaultShippingAddress->getPostcode()) ?>" title="Zip/Postal Code" id="zip" class="input-text validate-zip-international <?php echo Mage::helper('customer/address')->getAttributeValidationClass('postcode') ?>" />
-                    <?php else: ?>  
-                        <input type="text" name="postcode" value="<?php echo isset($sessionFormData["postcode"]) ? $sessionFormData["postcode"] : '' ?>" title="Zip/Postal Code" id="zip" class="input-text validate-zip-international <?php echo Mage::helper('customer/address')->getAttributeValidationClass('postcode') ?>" />
-                    <?php endif ?>     
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
-                    <div class="input-box" name="country_id">
-                        <?php echo Mage::getBlockSingleton('customer/address_edit')->getCountryHtmlSelect() ?>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>    
    
     <div class="buttons-set">
         <button type="submit" title="Save" id="saveregbutton" class="button">
@@ -250,9 +137,6 @@
 <script type="text/javascript">
 //<![CDATA[
     var dataForm = new VarienForm('form-validate', true);
-    <?php if($defaultShippingAddress): ?>
-        new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip');
-    <?php endif; ?> 
     var picker = new Pikaday({ field: document.getElementById('datepicker'),  minDate: new Date() });
 //]]>
 </script>

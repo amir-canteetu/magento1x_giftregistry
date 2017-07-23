@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -146,17 +146,6 @@ abstract class Supremecreative_Giftregistry_Block_Abstract extends Mage_Catalog_
     public function getGiftregistryInstance()
     {
         return $this->_getGiftregistry();
-    }
-
-    /**
-     * Back compatibility retrieve giftregistry product items
-     *
-     * @deprecated after 1.4.2.0
-     * @return Supremecreative_Giftregistry_Model_Mysql4_Item_Collection
-     */
-    public function getGiftregistry()
-    {
-        return $this->getGiftregistryItems();
     }
 
     /**

@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -28,7 +28,7 @@
 /**
  * Giftregistry resource model
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -95,25 +95,6 @@ class Supremecreative_Giftregistry_Model_Resource_Giftregistry extends Mage_Core
     {
         $this->_customerIdFieldName = $fieldName;
         return $this;
-    }
-
-    /**
-     * Retrieve giftregistry items count
-     *
-     * @deprecated after 1.6.0.0-rc2
-     * @see Supremecreative_Giftregistry_Model_Giftregistry::getItemsCount()
-     *
-     * @param Supremecreative_Giftregistry_Model_Giftregistry $giftregistry
-     *
-     * @return int
-     */
-    public function fetchItemsCount(Supremecreative_Giftregistry_Model_Giftregistry $giftregistry)
-    {
-        if (is_null($this->_itemsCount)) {
-            $this->_itemsCount = $giftregistry->getItemsCount();
-        }
-
-        return $this->_itemsCount;
     }
 
 }

@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -27,7 +27,7 @@
 /**
  * Giftregistry item option resource model
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */

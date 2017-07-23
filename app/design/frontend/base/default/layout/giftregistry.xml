@@ -129,7 +129,7 @@ Giftregistry pages
             <block type="giftregistry/addto" after="product.info.addto" name="giftregistry.addto" as="giftregistryaddto" template="giftregistry/addto.phtml"/>
         </reference> 
     </catalog_product_view>
-
+ 
     <giftregistry_shared_index translate="label">
         <label>Customer Shared Giftregistry View</label>
         <!-- Supremecreative_Giftregistry -->
@@ -139,7 +139,6 @@ Giftregistry pages
         <reference name="content">
             <block type="giftregistry/share_giftregistry" name="customer.giftregistry" template="giftregistry/shared.phtml" />
         </reference>
-     
     </giftregistry_shared_index>
     
     <giftregistry_index_new>
@@ -152,10 +151,9 @@ Giftregistry pages
             <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>             
         </reference>           
         <reference name="content">
-            <block name="giftregistry.new" type="core/template" template="giftregistry/new.phtml"  as="giftregistry_new"/>
+            <block name="giftregistry.new" type="giftregistry/customer_giftregistry" template="giftregistry/new.phtml"  as="giftregistry_new"/>
         </reference>        
     </giftregistry_index_new> 
-    
     
     <giftregistry_index_edit>
         <update handle="customer_account" />
@@ -174,7 +172,7 @@ Giftregistry pages
             </block>
         </reference>        
     </giftregistry_index_edit> 
-    
+
     <checkout_onepage_index>
         <reference name="checkout.onepage.billing">
             <action method="setTemplate"><template>giftregistry/persistent/checkout/onepage/billing.phtml</template></action>
@@ -184,5 +182,38 @@ Giftregistry pages
             <action method="setTemplate"><template>giftregistry/checkout/onepage/shipping.phtml</template></action>
         </reference>      
     </checkout_onepage_index>                        
-          
+    
+    <giftregistry_search_index>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="giftregistry"><title>Gift Registry Search</title></action>
+            <action method="addItem"><type>skin_js</type><name>js/giftregistry/giftregistry.js</name></action>  
+            <action method="addCss"><stylesheet>css/giftregistry/pikaday/pikaday.min.css</stylesheet></action> 
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>             
+        </reference>           
+        <reference name="content">
+            <block name="giftregistry.search" type="giftregistry/search" template="giftregistry/search.phtml"  as="giftregistry.search">
+                 <action method="setTitle" translate="title">
+                    <title>Search For Gift Registry</title>
+                </action>               
+            </block>
+        </reference>        
+    </giftregistry_search_index> 
+    
+    <giftregistry_search_results>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="giftregistry"><title>Gift Registry Search Results</title></action>
+            <action method="addItem"><type>skin_js</type><name>js/giftregistry/giftregistry.js</name></action>  
+            <action method="addCss"><stylesheet>css/giftregistry/pikaday/pikaday.min.css</stylesheet></action> 
+            <action method="addCss"><stylesheet>css/giftregistry/giftregistry.css</stylesheet></action>             
+        </reference>           
+        <reference name="content">
+            <block name="giftregistry.search.results" type="giftregistry/search" template="giftregistry/search.phtml"  as="giftregistry.search">
+                <action method="setTitle" translate="title">
+                    <title>Gift Registry Search Results</title>
+                </action>                
+            </block>
+        </reference>        
+    </giftregistry_search_results>     
+    
+                        
 </layout>

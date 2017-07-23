@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -68,112 +68,45 @@ class Supremecreative_Giftregistry_Block_Customer_Giftregistry extends Supremecr
      */
 
 
+   
     /**
-     * Sets all options render configurations
-     *
-     * @deprecated after 1.6.2.0
-     * @param null|array $optionCfg
-     * @return Supremecreative_Giftregistry_Block_Customer_Giftregistry
+     * Check if logged in user has shipping addresses saved
+     * @return Mage_Checkout_Block_Onepage_Shipping
      */
-    public function setOptionsRenderCfgs($optionCfg)
+    public function customerHasAddresses()
     {
-        $this->_optionsCfg = $optionCfg;
-        return $this;
-    }
-
+        return Mage::getBlockSingleton('checkout/onepage_shipping')->customerHasAddresses();
+    }    
+    
     /**
-     * Returns all options render configurations
-     *
-     * @deprecated after 1.6.2.0
-     * @return array
+     * Get logged in user addresses
+     * @return Mage_Checkout_Block_Onepage_Shipping
      */
-    public function getOptionsRenderCfgs()
+    public function getAddressesHtmlSelect($type)
     {
-        return $this->_optionsCfg;
-    }
-
-    /*
-     * Adds config for rendering product type options
-     *
-     * @deprecated after 1.6.2.0
-     * @param string $productType
-     * @param string $helperName
-     * @param null|string $template
-     * @return Supremecreative_Giftregistry_Block_Customer_Giftregistry
-     */
-    public function addOptionsRenderCfg($productType, $helperName, $template = null)
-    {
-        $this->_optionsCfg[$productType] = array('helper' => $helperName, 'template' => $template);
-        return $this;
-    }
+        return Mage::getBlockSingleton('giftregistry/onepage_shipping')->getAddressesHtmlSelect($type);
+    } 
 
     /**
-     * Returns html for showing item options
-     *
-     * @deprecated after 1.6.2.0
-     * @param string $productType
-     * @return array|null
+     * Get logged in user addresses
+     * @return Mage_Customer_Model_Address
      */
-    public function getOptionsRenderCfg($productType)
+    public function getGiftRegistryAddress()
     {
-        if (isset($this->_optionsCfg[$productType])) {
-            return $this->_optionsCfg[$productType];
-        } elseif (isset($this->_optionsCfg['default'])) {
-            return $this->_optionsCfg['default'];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns html for showing item options
-     *
-     * @deprecated after 1.6.2.0
-     * @param Supremecreative_Giftregistry_Model_Item $item
-     * @return string
-     */
-    public function getDetailsHtml(Supremecreative_Giftregistry_Model_Item $item)
-    {
-        $cfg = $this->getOptionsRenderCfg($item->getProduct()->getTypeId());
-        if (!$cfg) {
-            return '';
-        }
-
-        $helper = Mage::helper($cfg['helper']);
-        if (!($helper instanceof Mage_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException($this->__("Helper for giftregistry options rendering doesn't implement required interface."));
-        }
-
-        $block = $this->getChild('item_options');
-        if (!$block) {
-            return '';
-        }
-
-        if ($cfg['template']) {
-            $template = $cfg['template'];
-        } else {
-            $cfgDefault = $this->getOptionsRenderCfg('default');
-            if (!$cfgDefault) {
-                return '';
+        $giftRegistryInstance = $this->getGiftregistryInstance();
+        
+        if($giftRegistryInstance) {
+            $addressId = $giftRegistryInstance->getShippingAddressId();
+            if($addressId) {
+                $address = Mage::getModel('customer/address')->load($addressId);
+                return Mage::getModel('customer/address')->load($addressId);
             }
-            $template = $cfgDefault['template'];
         }
-
-        return $block->setTemplate($template)
-            ->setOptionList($helper->getOptions($item))
-            ->toHtml();
-    }
-
-    /**
-     * Returns qty to show visually to user
-     *
-     * @deprecated after 1.6.2.0
-     * @param Supremecreative_Giftregistry_Model_Item $item
-     * @return float
-     */
-    public function getAddToCartQty(Supremecreative_Giftregistry_Model_Item $item)
-    {
-        $qty = $this->getQty($item);
-        return $qty ? $qty : 1;
-    }
+        
+        return '';
+        
+    }     
+    
+    
+    
 }

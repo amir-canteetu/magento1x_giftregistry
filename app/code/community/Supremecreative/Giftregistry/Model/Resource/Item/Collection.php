@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -28,7 +28,7 @@
 /**
  * Giftregistry item collection
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -296,22 +296,6 @@ class Supremecreative_Giftregistry_Model_Resource_Item_Collection extends Mage_C
     }
 
     /**
-     * Add giftregistry sort order
-     *
-     * @deprecated after 1.6.0.0-rc2
-     * @see Varien_Data_Collection_Db::setOrder() is used instead
-     *
-     * @param string $attribute
-     * @param string $dir
-     * @return Supremecreative_Giftregistry_Model_Resource_Item_Collection
-     */
-    public function addGiftregistrySortOrder($attribute = 'added_at', $dir = 'desc')
-    {
-        $this->setOrder($attribute, $dir);
-        return $this;
-    }
-
-    /**
      * Reset sort order
      *
      * @return Supremecreative_Giftregistry_Model_Resource_Item_Collection
@@ -357,35 +341,6 @@ class Supremecreative_Giftregistry_Model_Resource_Item_Collection extends Mage_C
     public function setInStockFilter($flag = true)
     {
         $this->_productInStock = (bool)$flag;
-        return $this;
-    }
-
-    /**
-     * Set add days in whishlist
-     *
-     * This method appears in 1.5.0.0 in deprecated state, because:
-     * - we need it to make giftregistry item collection interface as much as possible compatible with old
-     *   giftregistry product collection
-     * - this method is useless because we can calculate days in php, and don't use MySQL for it
-     *
-     * @deprecated after 1.4.2.0
-     * @return Supremecreative_Giftregistry_Model_Resource_Item_Collection
-     */
-    public function addDaysInGiftregistry()
-    {
-        $this->_addDaysInGiftregistry = true;
-
-        $adapter = $this->getConnection();
-        $dateModel = Mage::getSingleton('core/date');
-        $resHelper = Mage::getResourceHelper('core');
-
-        $offsetFromDb = (int) $dateModel->getGmtOffset();
-        $startDate = $adapter->getDateAddSql('added_at', $offsetFromDb, Varien_Db_Adapter_Interface::INTERVAL_SECOND);
-
-        $nowDate = $dateModel->date();
-        $dateDiff = $resHelper->getDateDiff($startDate, $adapter->formatDate($nowDate));
-
-        $this->getSelect()->columns(array('days_in_giftregistry' => $dateDiff));
         return $this;
     }
 

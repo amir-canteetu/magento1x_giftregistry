@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -57,6 +57,13 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
      * @var Supremecreative_Giftregistry_Model_Giftregistry
      */
     protected $_giftregistry = null;
+
+    /**
+     * Customer Shared Giftregistry instance
+     *
+     * @var Supremecreative_Giftregistry_Model_Giftregistry
+     */
+    protected $_sharedGiftRegistry = null;  
     
     /**
      * Giftregistry Type instance
@@ -145,8 +152,8 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
             } elseif (Mage::registry('giftregistry')) {
                 $this->_giftregistry = Mage::registry('giftregistry');
             } else {
-                $this->_giftregistry = Mage::getModel('giftregistry/giftregistry');
                 if ($this->getCustomer()) {
+                    $this->_giftregistry = Mage::getModel('giftregistry/giftregistry');
                     $this->_giftregistry->loadByCustomer($this->getCustomer());
                     Mage::register('giftregistry', $this->_giftregistry);
                 }
@@ -155,31 +162,22 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_giftregistry;
     }
     
-    
-    public function getGiftregistryShipping() 
-    {
+    /**
+     * Retrieve Customer shared gift registry
+     *
+     * @return Supremecreative_Giftregistry_Model_Giftregistry
+     */    
+    public function getCustomerSharedGiftregistry() {
         
-        $giftregistryShipping = json_decode($this->getGiftregistry()->getShipping(), true); 
-        
-        if($giftregistryShipping) {
-            return $giftregistryShipping;
-        } else {
-            return false;
+        $session    = Mage::getSingleton('giftregistry/session');
+        if(!$this->_sharedGiftRegistry) { 
+            if($session->getSharedGiftRegistry()) {
+                $this->_sharedGiftRegistry = $session->getSharedGiftRegistry();
+                }
         }
-        
+        return $this->_sharedGiftRegistry;
     }
 
-    /**
-     * Retrieve giftregistry items availability
-     *
-     * @deprecated after 1.6.0.0
-     *
-     * @return bool
-     */
-    public function hasItems()
-    {
-        return $this->getGiftregistry()->getItemsCount() > 0;
-    }
 
     /**
      * Retrieve giftregistry item count (include config settings)
@@ -209,7 +207,6 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * alias for getProductCollection
      *
-     * @deprecated after 1.4.2.0
      * @see Supremecreative_Giftregistry_Model_Giftregistry::getItemCollection()
      *
      * @return Supremecreative_Giftregistry_Model_Mysql4_Product_Collection
@@ -245,7 +242,6 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve giftregistry product items collection
      *
-     * @deprecated after 1.4.2.0
      * @see Supremecreative_Giftregistry_Model_Giftregistry::getItemCollection()
      *
      * @return Supremecreative_Giftregistry_Model_Mysql4_Product_Collection
@@ -460,18 +456,6 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve url for adding item to shoping cart with b64 referer
-     *
-     * @deprecated
-     * @param   Mage_Catalog_Model_Product|Supremecreative_Giftregistry_Model_Item $item
-     * @return  string
-     */
-    public function getAddToCartUrlBase64($item)
-    {
-        return $this->getAddToCartUrl($item);
-    }
-
-    /**
      * Retrieve customer giftregistry url
      *
      * @param int $giftregistryId
@@ -615,11 +599,20 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig(self::XML_PATH_GIFTREGISTRY_LINK_USE_QTY);
     }
     
+    /**
+     * Retrieve event types collection
+     *
+     * @return Supremecreative_Giftregistry_Model_Type_Collection
+     */    
     public function getEventTypes() {
         $collection = Mage::getModel('giftregistry/type')->getCollection();
         return $collection;
     }    
     
+    /**
+     * Retrieve logged-in customer's default shipping address
+     * @return Mage_Customer_Model_Address
+     */       
     public function getDefaultShippingAddress() {
 
         $customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
@@ -631,12 +624,21 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
         return false;
 
     }
-    
+ 
+    /**
+     * Retrieve customer's name block
+     * @return Mage_Customer_Model_Address_edit
+     */ 
     public function getNameBlockHtml()
     {
         return Mage::getBlockSingleton('customer/address_edit')->getNameBlockHtml();
     }    
      
+    
+    /**
+     * Retrieve customer's address edit block
+     * @return Mage_Customer_Model_Address_edit
+     */     
     public function getAddressEditBlock()
     {
         return Mage::getBlockSingleton('customer/address_edit');
@@ -651,10 +653,13 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
     public function getGiftregistryType()
     {
         if (is_null($this->_giftregistrytype)) {
-            $giftregistryTypeId = $this->getGiftregistry()->getTypeId();
-            if($giftregistryTypeId){
-                return Mage::getModel('giftregistry/type')->load($giftregistryTypeId); 
+            if($this->getGiftregistry()) {
+             $giftregistryTypeId = $this->getGiftregistry()->getTypeId();  
+                if($giftregistryTypeId){
+                    return Mage::getModel('giftregistry/type')->load($giftregistryTypeId); 
+                }             
             }
+
         }
         return false;
     }    
@@ -670,16 +675,32 @@ class Supremecreative_Giftregistry_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getGiftregistry()->getEventName() ? $this->getGiftregistry()->getEventName() : null;
     }
     
+    /**
+     * Retrieve giftregistry message
+     *
+     * @return string | null
+     */    
     public function getGiftRegistryMessage() 
     {
         return $this->getGiftregistry()->getEventMessage() ? $this->getGiftregistry()->getEventMessage() : null;   
     }
     
+    /**
+     * Retrieve giftregistry image url
+     *
+     * @return string
+     */     
     public function getGiftRegistryImageUrl() 
     {
         return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $this->getGiftregistry()->getBannerImg() ? Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $this->getGiftregistry()->getBannerImg() : '';
     }  
     
+    
+    /**
+     * Retrieve giftregistry url
+     *
+     * @return string 
+     */     
     public function getGiftRegistryUrl() 
     {
         return Mage::getBaseUrl()  . 'giftregistry/shared/index/code/' . $this->getGiftregistry()->getBannerImg() ? Mage::getBaseUrl()  . 'giftregistry/shared/index/code/' . $this->getGiftregistry()->getBannerImg() : '';

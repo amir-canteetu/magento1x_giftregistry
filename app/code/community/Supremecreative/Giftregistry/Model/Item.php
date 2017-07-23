@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -40,7 +40,7 @@
  * @method string getDescription()
  * @method Supremecreative_Giftregistry_Model_Item setDescription(string $value)
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -49,15 +49,6 @@ class Supremecreative_Giftregistry_Model_Item extends Mage_Core_Model_Abstract
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
-
-    /**
-     * We can store product store product configuration
-     * and add grouped attributes after 1.4.2.0
-     *
-     * @deprecated after 1.4.2.0
-     */
-    const EXCEPTION_CODE_IS_GROUPED_PRODUCT     = 903;
-    const EXCEPTION_CODE_NOT_SPECIFIED_PRODUCT  = 904;
 
     /**
      * Custom path to download attached file
@@ -286,24 +277,6 @@ class Supremecreative_Giftregistry_Model_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve giftregistry item data as array
-     *
-     * @deprecated since 1.4.0.0
-     * @return array
-     */
-    public function getDataForSave()
-    {
-        $data = array();
-        $data['product_id']  = $this->getProductId();
-        $data['giftregistry_id'] = $this->getGiftregistryId();
-        $data['added_at']    = $this->getAddedAt() ? $this->getAddedAt() : Mage::getSingleton('core/date')->gmtDate();
-        $data['description'] = $this->getDescription();
-        $data['store_id']    = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-
-        return $data;
-    }
-
-    /**
      * Load item by product, giftregistry and shared stores
      *
      * @param int $giftregistryId
@@ -365,28 +338,28 @@ class Supremecreative_Giftregistry_Model_Item extends Mage_Core_Model_Abstract
     {
         $product = $this->getProduct();
         $storeId = $this->getStoreId();
-Mage::log('addToCart: 368');
+
         if ($product->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
             return false;
         }
-Mage::log('addToCart: 372');
+
         if (!$product->isVisibleInSiteVisibility()) {
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
         }
-Mage::log('addToCart: 378');
+
         if (!$product->isSalable()) {
             throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_NOT_SALABLE);
         }
-Mage::log('addToCart: 382');
+
         $buyRequest = $this->getBuyRequest();
-Mage::log('addToCart: 384');
+
         $cart->addProduct($product, $buyRequest);
         if (!$product->isVisibleInSiteVisibility()) {
             $cart->getQuote()->getItemByProduct($product)->setStoreId($storeId);
         }
-Mage::log('addToCart: 389');
+
         if ($delete) {
             $this->delete();
         }

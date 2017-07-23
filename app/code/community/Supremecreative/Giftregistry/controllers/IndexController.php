@@ -3,7 +3,7 @@
 /**
  * Giftregistry front controller
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -70,8 +70,7 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
      * @return Supremecreative_Giftregistry_Model_Giftregistry|bool
      */
     protected function _getGiftRegistry($giftregistryId = null) 
-    {
-        
+    {   
         if ($giftregistry = Mage::registry('giftregistry')) {
             return $giftregistry;
         }
@@ -109,10 +108,11 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
 
     /**
      * Display customer giftregistry
+     *
+     * @return Supremecreative_Giftregistry_IndexController
      */
     public function indexAction()
     {
- 
         $session = Mage::getSingleton('customer/session');  
         if (!$this->_getGiftRegistry()) {
             $session->addNotice(Mage::helper('giftregistry')->__('Please create a gift registry'));
@@ -137,7 +137,7 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
     
     
     /**
-     * Create new gift registry
+     * Show new-gift-registry page
      *
      * @return Mage_Core_Controller_Varien_Action|void
      */    
@@ -155,7 +155,7 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
     }    
 
     /**
-     * Adding new item
+     * Adding new item to giftregistry
      *
      * @return Mage_Core_Controller_Varien_Action|void
      */
@@ -183,12 +183,10 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
      * @return Mage_Core_Controller_Varien_Action|void
      */
     protected function _addItemToGiftregistry()
-    {
-        
+    {        
         $session = Mage::getSingleton('customer/session');  
         
-        $giftregistry = $this->_getGiftRegistry();  
-        
+        $giftregistry = $this->_getGiftRegistry();         
         $requestParams = $this->getRequest()->getParams();
         $productId = isset($requestParams['product']) ? (int)$requestParams['product'] : null;
 
@@ -220,7 +218,7 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
             }
         }   
         
-        if (empty($attributes)) {
+        if ($product->isConfigurable() && empty($attributes)) {
             Mage::getSingleton('core/session')->addNotice('Please specify the product\'s option(s).');
             return $this->_redirectReferer();
         } 
@@ -243,17 +241,6 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
             );
 
             $referer = $session->getBeforeGiftregistryUrl();
-
-            /**
-            if ($referer) {
-                $session->setBeforeGiftregistryUrl(null);
-            } else {
-                $referer = $this->_getRefererUrl();
-            }
-            $session->setAddActionReferer($referer);
-             *  Set referer to avoid referring to the compare popup window
-             */
-
             Mage::helper('giftregistry')->calculate();
 
             if ($referer) {
@@ -840,7 +827,7 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
     }
     
     public function newCustomTypeAction($data) {
-
+        
         $session = Mage::getSingleton('customer/session');
         $newRegistryType = Mage::getModel('giftregistry/type');
         $newRegistryType->setRegistryTypeInfo($data);
@@ -885,19 +872,22 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
                 $existsGiftRegistry = $giftRegistry->load($giftRegistryId);
                 if ($existsGiftRegistry->getId() && $existsGiftRegistry->getCustomerId() == $customer->getId()) {
                     $giftRegistry->setId($existsGiftRegistry->getId());
+                    $successMessage = Mage::helper('giftregistry')->__('Your Gift Registry Details Were Successfully Updated');
                 }
                 
-            }            
+            } else {
+                $successMessage = Mage::helper('giftregistry')->__('Your Gift Registry Details Was Successfully Created');
+            }           
             
             $giftRegistry = $giftRegistry->setRegistryInfo($customer, $data);
             $registryValidateArray = $giftRegistry->validate();            
             
-            $validateArray = array_merge ( $registryTypeValidateArray, $registryValidateArray );            
+            $validateArray = array_merge ( $registryTypeValidateArray, $registryValidateArray ); 
 
             if (empty($validateArray)) {
                 try {
                     $giftRegistry->save();
-                    $successMessage = Mage::helper('giftregistry')->__('Your Gift Registry Details Were Successfully Updated');
+                    
                     $session->addSuccess($successMessage);
  
                     if (Mage::getSingleton('customer/session')->getAddToGiftregistryRequest()) {
@@ -909,7 +899,7 @@ class Supremecreative_Giftregistry_IndexController extends Supremecreative_Giftr
                     $this->_redirect('*/*/new');
                 }
             } else {
-                $session->setGiftRegistryFormData($data);
+                Mage::getSingleton('core/session')->setGiftRegistryFormData($data);
                 foreach ($validateArray as $errorMessage) {
                     $session->addError($errorMessage);
                 }

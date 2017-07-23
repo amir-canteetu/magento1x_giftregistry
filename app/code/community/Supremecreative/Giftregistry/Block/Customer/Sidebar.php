@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -85,41 +85,6 @@ class Supremecreative_Giftregistry_Block_Customer_Sidebar extends Supremecreativ
         }
 
         return '';
-    }
-
-    /**
-     * Can Display giftregistry
-     *
-     * @deprecated after 1.6.2.0
-     * @return bool
-     */
-    public function getCanDisplayGiftregistry()
-    {
-        return $this->_getCustomerSession()->isLoggedIn();
-    }
-
-    /**
-     * Retrieve URL for removing item from giftregistry
-     *
-     * @deprecated back compatibility alias for getItemRemoveUrl
-     * @param  Supremecreative_Giftregistry_Model_Item $item
-     * @return string
-     */
-    public function getRemoveItemUrl($item)
-    {
-        return $this->getItemRemoveUrl($item);
-    }
-
-    /**
-     * Retrieve URL for adding product to shopping cart and remove item from giftregistry
-     *
-     * @deprecated
-     * @param  Mage_Catalog_Model_Product|Supremecreative_Giftregistry_Model_Item $product
-     * @return string
-     */
-    public function getAddToCartItemUrl($product)
-    {
-        return $this->getItemAddToCartUrl($product);
     }
 
     /**

@@ -49,60 +49,21 @@ $j( document ).ready(function() {
 
     $j("#registry_img_input").change(function(){
         readURL(this);
-    });    
+    }); 
+    
+    $j("#shipping-address-select").on('change', function () {
+
+        var thisSelect = $j(this);
+        var shippingAddressForm = $j('#shipping-new-address-form');
+
+        if (thisSelect.val() === "New") {
+            shippingAddressForm.show();
+        } else {
+            shippingAddressForm.hide();
+        }
+
+    });     
   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-/* 
-    var registryId = $j('#registryId').val();
-
-    
-    $j( "#addToRegQty" ).change(function() {
-        
-      var giftRegistrySubmitUrl = $j('#addToGiftRegistryLink').attr('href');
-      var addToRegQty = $j('#addToRegQty').val();      
-      var substringHref = giftRegistrySubmitUrl.substring(giftRegistrySubmitUrl.lastIndexOf("addToRegQty/"),giftRegistrySubmitUrl.lastIndexOf("/")); 
-      var giftRegistrySubmitUrl = giftRegistrySubmitUrl.replace(substringHref, "addToRegQty/" + addToRegQty);
-      
-      $j('#addToGiftRegistryLink').attr('href', giftRegistrySubmitUrl);
-      
-
-      
-    });
-    
-    $j( "#registryId" ).change(function() {
-
-      var giftRegistrySubmitUrl = $j('#addToGiftRegistryLink').attr('href');
-      var registryId = $j('#registryId').val();      
-      var substringHref = giftRegistrySubmitUrl.substring(giftRegistrySubmitUrl.lastIndexOf("registryId/"),giftRegistrySubmitUrl.lastIndexOf("/")); 
-      var giftRegistrySubmitUrl = giftRegistrySubmitUrl.replace(substringHref, "addToRegQty/" + addToRegQty);
-      
-      $j('#addToGiftRegistryLink').attr('href', giftRegistrySubmitUrl);
-
-      
-    });
- */
-    
-    
     
 });
 

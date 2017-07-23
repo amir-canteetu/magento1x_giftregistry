@@ -17,23 +17,34 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Supremecreative_Giftregistry_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_Shipping{
-
+class Supremecreative_Giftregistry_Block_Onepage_Shipping extends Mage_Checkout_Block_Onepage_Shipping 
+{   
     
-    private $_sharedGiftRegistry = null;
+    /**
+     * Retrieve Giftregistry Data Helper
+     *
+     * @return Supremecreative_Giftregistry_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('giftregistry');
+    }    
     
-    
+    /**
+     * Retrieve Customer shared gift registry
+     *
+     * @return Supremecreative_Giftregistry_Model_Giftregistry
+     */    
     public function getCustomerSharedGiftregistry() {
-        
-        $session    = Mage::getSingleton('giftregistry/session');
-        if(!$this->_sharedGiftRegistry) { 
-            if($session->getSharedGiftRegistry()) {
-                $this->_sharedGiftRegistry = $session->getSharedGiftRegistry();
-                }
-        }
-        return $this->_sharedGiftRegistry;
+
+        return $this->_getHelper()->getCustomerSharedGiftregistry();
     }
     
+    /**
+     * Get owner/creator of gift registry
+     *
+     * @return Mage_Customer_Model_Customer
+     */      
     public function getSharedGiftRegistryOwner() {
 
         if($sharedGiftRegistry = $this->getCustomerSharedGiftregistry()) {
@@ -44,6 +55,11 @@ class Supremecreative_Giftregistry_Block_Onepage_Shipping extends Mage_Checkout_
     }
     
     
+    /**
+     * Check if owner/creator of gift registry has any addresses
+     *
+     * @return int
+     */     
     public function registryOwnerHasAddresses() 
     {
         
@@ -51,7 +67,11 @@ class Supremecreative_Giftregistry_Block_Onepage_Shipping extends Mage_Checkout_
         
     }
     
-    
+    /**
+     * Get gift registry owner and logged-in customer shipping addresses
+     *
+     * @return Mage_Core_Block_Html_Select
+     */      
      public function getAddressesHtmlSelect($type)
     {
         
@@ -59,45 +79,73 @@ class Supremecreative_Giftregistry_Block_Onepage_Shipping extends Mage_Checkout_
             return parent::getAddressesHtmlSelect($type);
         } 
          
-         if ($this->isCustomerLoggedIn()) {
-            $options = array();
-            
-            foreach ($this->getSharedGiftRegistryOwner()->getAddresses() as $address) {
-                $options[] = array(
-                    'value' => $address->getId(),
-                    'label' => $address->format('oneline')
-                );
-            }            
-            
+        $options = array();
+
+        foreach ($this->getSharedGiftRegistryOwner()->getAddresses() as $address) {
+            $options[] = array(
+                'value' => $address->getId(),
+                'label' => $address->format('oneline')
+            );
+        } 
+
+        if ($this->isCustomerLoggedIn()) {
             foreach ($this->getCustomer()->getAddresses() as $address) {
                 $options[] = array(
                     'value' => $address->getId(),
                     'label' => $address->format('oneline')
                 );
             }
-
-            $address = $this->getSharedGiftRegistryOwner()->getPrimaryShippingAddress();
-            $addressId = $address->getId();
-
-            $select = $this->getLayout()->createBlock('core/html_select')
-                ->setName($type.'_address_id')
-                ->setId($type.'-address-select')
-                ->setClass('address-select')
-                ->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
-                ->setValue($addressId)
-                ->setOptions($options);
-
-            $select->addOption('', Mage::helper('checkout')->__('New Address'));
-
-            return $select->getHtml();
         }
-        return '';
-   
+
+        $address = $this->getSharedGiftRegistryOwner()->getPrimaryShippingAddress();
+        $addressId = $address->getId();
+
+        $select = $this->getLayout()->createBlock('core/html_select')
+            ->setName($type.'_address_id')
+            ->setId($type.'-address-select')
+            ->setClass('address-select')
+            ->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
+            ->setValue($addressId)
+            ->setOptions($options);
+
+        $select->addOption('', Mage::helper('checkout')->__('New Address'));
+
+        return $select->getHtml();
         
     }   
     
     
     
+    
+     public function getShippingAddressesHtmlSelect($type)
+    {
+
+        $options = array();
+        foreach ($this->getCustomer()->getAddresses() as $address) {
+            $options[] = array(
+                'value' => $address->getId(),
+                'label' => $address->format('oneline')
+            );
+        }
+
+        $addressId = $this->getAddress()->getCustomerAddressId();
+        if (empty($addressId)) {
+            $address = $this->getCustomer()->getPrimaryShippingAddress();
+            if ($address) {
+                $addressId = $address->getId();
+            }
+        }
+
+        $select = $this->getLayout()->createBlock('core/html_select')
+            ->setName($type.'_address_id')
+            ->setId($type.'-address-select')
+            ->setClass('address-select')
+            ->setValue($addressId)
+            ->setOptions($options);
+
+        return $select->getHtml();
+        
+    }     
     
 }
 

@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -68,9 +68,9 @@ $table = $installer->getConnection()
             ),
             'Website Id'
         )
-        ->addColumn('event_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255,
+        ->addColumn('owner', Varien_Db_Ddl_Table::TYPE_TEXT, 255,
             array(),
-            'Event Name'
+            'Reg Owners Name'
         )
         ->addColumn('event_date', Varien_Db_Ddl_Table::TYPE_DATE, null,
             array(),
@@ -87,10 +87,10 @@ $table = $installer->getConnection()
         ->addColumn('event_message', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
             'nullable'  => true,
         ), 'Registry Message')                      
-        ->addColumn('shipping', Varien_Db_Ddl_Table::TYPE_TEXT, 255,
-            array('nullable'  => true),
-            'Shipping'
-        )          
+    ->addColumn('shipping_address_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(        
+        'unsigned'  => true,
+        'nullable'  => false
+        ), 'Shipping Address Id')         
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Last updated date')
     ->addIndex($installer->getIdxName('giftregistry/giftregistry', 'shared'), 'shared')

@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -37,7 +37,7 @@
  * @method string getUpdatedAt()
  * @method Supremecreative_Giftregistry_Model_Giftregistry setUpdatedAt(string $value)
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -266,24 +266,6 @@ class Supremecreative_Giftregistry_Model_Giftregistry extends Mage_Core_Model_Ab
             return false;
         }
         return $this->getItemCollection()->getItemById($itemId);
-    }
-
-    /**
-     * Retrieve Product collection
-     *
-     * @deprecated after 1.4.2.0
-     * @see Supremecreative_Giftregistry_Model_Giftregistry::getItemCollection()
-     *
-     * @return Supremecreative_Giftregistry_Model_Mysql4_Product_Collection
-     */
-    public function getProductCollection()
-    {
-        $collection = $this->getData('product_collection');
-        if (is_null($collection)) {
-            $collection = Mage::getResourceModel('giftregistry/product_collection');
-            $this->setData('product_collection', $collection);
-        }
-        return $collection;
     }
 
     /**
@@ -610,6 +592,11 @@ class Supremecreative_Giftregistry_Model_Giftregistry extends Mage_Core_Model_Ab
         return parent::save();
     }
     
+    /**
+     * Set giftregistry data.
+     *
+     * @return Supremecreative_Giftregistry_Model_Giftregistry
+     */    
     public function setRegistryInfo(Mage_Customer_Model_Customer $customer, $data) {
 
         try {
@@ -618,11 +605,13 @@ class Supremecreative_Giftregistry_Model_Giftregistry extends Mage_Core_Model_Ab
                 $this->setCustomerId(trim($customer->getId()));
                 $this->setWebsiteId(trim($customer->getWebsiteId()));
                 $this->setTypeId( isset($data['type_id']) ? trim($data['type_id']) : '' );
-                $this->setEventName( isset($data['event_name']) ? trim($data['event_name']) : '' );
+                $this->setOwner( isset($data['owner']) ? trim($data['owner']) : '' );
                 $this->setEventDate( isset($data['event_date']) ? trim($data['event_date']) : '' );
                 $this->setNumberGuests( isset($data['number_guests']) ? trim($data['number_guests']) : '' );
                 $this->setEventLocation(isset($data['event_location']) ? trim($data['event_location']) : '');
                 $this->setEventMessage( isset($data['event_message']) ? trim($data['event_message']) : '' ); 
+                $shipping_address_id = (int)$data['shipping_address_id'];
+                $this->setShippingAddressId( $shipping_address_id );
                 if(!$this->getId()) {
                     $this->setSharingCode($this->_getSharingRandomCode());
                 }
@@ -656,21 +645,6 @@ class Supremecreative_Giftregistry_Model_Giftregistry extends Mage_Core_Model_Ab
                     }                     
 
                 }                  
-
-                $shipping = [];
-                $shipping["firstname"] = isset($data['firstname']) ? trim($data['firstname']) : '';
-                $shipping["middlename"] = isset($data['middlename']) ? trim($data['middlename']) : '';                
-                $shipping["lastname"] = isset($data['lastname']) ? trim($data['lastname']) : '';
-                $shipping["telephone"] = isset($data['telephone']) ? trim($data['telephone']) : '';  
-                $shipping["street_1"] = isset($data['street_1']) ? trim($data['street_1']) : '';
-                $shipping["street_2"] = isset($data['street_2']) ? trim($data['street_2']) : '';  
-                $shipping["city"] = isset($data['city']) ? trim($data['city']) : '';
-                $shipping["region_id"] = isset($data['region_id']) ? $data['region_id'] : '';  
-                $shipping["region"] = isset($data['region']) ? trim($data['region']) : '';
-                $shipping["postcode"] = isset($data['postcode']) ? trim($data['postcode']) : '';  
-                $shipping["country_id"] = isset($data['country_id']) ? $data['country_id'] : ''; 
-
-                $this->setShipping(json_encode($shipping));
             } else {
                 throw new Exception("Error Processing Request: Insufficient Data Provided");
             }
@@ -680,78 +654,42 @@ class Supremecreative_Giftregistry_Model_Giftregistry extends Mage_Core_Model_Ab
         return $this;
     }
 
-    
+    /**
+     * Check if request data is empty
+     *
+     * @return array
+     */     
     protected function validateNotEmpty() {
         
         $errors = array();
         
-        $nonemptyValidator = new Zend_Validate_NotEmpty(); 
+        $nonemptyValidator = new Zend_Validate_NotEmpty();   
         
-        $shipping = json_decode($this->getShipping(), true);        
-        
-        if (!$nonemptyValidator->isValid($this->getEventName())) {
-          $errors[] = Mage::helper('giftregistry')->__('Please provide an The Event Name.');  
+        if (!$nonemptyValidator->isValid($this->getShippingAddressId())) {
+          $errors[] = Mage::helper('giftregistry')->__('Please provide a shipping address.');  
         } 
 
         if (!$nonemptyValidator->isValid($this->getTypeId())) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide an The Event Type.');
+            $errors[] = Mage::helper('giftregistry')->__('Please provide an the Event Type.');
         }                   
-       
-        if (!$nonemptyValidator->isValid($shipping["firstname"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide your First Name.');
-        }           
-        
-        if (!$nonemptyValidator->isValid($shipping["lastname"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide your Last Name.');
-        }          
-        
-        if (!$nonemptyValidator->isValid($shipping["telephone"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide your Telephone Number.');
-        }      
-        if (!$nonemptyValidator->isValid($shipping["street_1"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide the street address.');
-        } 
-        
-        if (!$nonemptyValidator->isValid($shipping["region_id"]) && !$nonemptyValidator->isValid($shipping["region"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide the State\\Province name.');
-        }  
-        
-        if (!$nonemptyValidator->isValid($shipping["postcode"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide the Postcode.');
-        }        
-  
-        if (!$nonemptyValidator->isValid($shipping["country_id"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide the Country name.');
-        }  
-                        
-       if (!$nonemptyValidator->isValid($shipping["city"])) {
-            $errors[] = Mage::helper('giftregistry')->__('Please provide the City name.');
-        } 
         
         return $errors;
                 
     }
 
+    /**
+     * Validate request data
+     *
+     * @return array
+     */     
     public function validate() {
         
         $errors = $this->validateNotEmpty();
         $digitValidator = new Zend_Validate_Digits();
-        $alphaValidator = new Zend_Validate_Alpha(array('allowWhiteSpace' => true));        
-        $shipping = json_decode($this->getShipping(), true);              
- 
-        if(!$alphaValidator->isValid($shipping["city"])) {
-            $errors[] = Mage::helper('giftregistry')->__('The City name should have alphabetic only characters');
-        }  
 
-        if($shipping["region_id"]) {
-            if(!$digitValidator->isValid($shipping["region_id"])) {
-                $errors[] = Mage::helper('giftregistry')->__('The region ID should have digit only characters');
-            }              
+        if(!$digitValidator->isValid($this->getShippingAddressId())) {
+            $errors[] = Mage::helper('giftregistry')->__('The Shipping ID should have only digit characters');
         }
-
-        if(!$alphaValidator->isValid($shipping["country_id"])) {
-            $errors[] = Mage::helper('giftregistry')->__('The Country name should have alphabetic only characters');
-        }                
         
         return $errors;
     } 

@@ -3,7 +3,7 @@
 /**
  * Giftregistry shared items controllers
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */

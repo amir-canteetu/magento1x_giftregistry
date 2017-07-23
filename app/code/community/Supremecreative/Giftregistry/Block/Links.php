@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -28,7 +28,7 @@
 /**
  * Links block
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -53,19 +53,6 @@ class Supremecreative_Giftregistry_Block_Links extends Mage_Page_Block_Template_
             return parent::_toHtml();
         }
         return '';
-    }
-
-    /**
-     * Define label, title and url for giftregistry link
-     *
-     * @deprecated after 1.6.2.0
-     */
-    public function initLinkProperties()
-    {
-        $text = $this->_createLabel($this->_getItemCount());
-        $this->_label = $text;
-        $this->_title = $text;
-        $this->_url = $this->getUrl('giftregistry');
     }
 
     /**
@@ -107,17 +94,6 @@ class Supremecreative_Giftregistry_Block_Links extends Mage_Page_Block_Template_
         } else {
             return $this->__('My Gift Registry');
         }
-    }
-
-    /**
-     * @deprecated after 1.4.2.0
-     * @see Supremecreative_Giftregistry_Block_Links::__construct
-     *
-     * @return array
-     */
-    public function addGiftregistryLink()
-    {
-        return $this;
     }
 
     /**

@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magento.com for more information.
  *
- * @category    Mage
+ * @category    Supremecreative
  * @package     Supremecreative_Giftregistry
  * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -47,16 +47,7 @@ class Supremecreative_Giftregistry_Block_Share_Giftregistry extends Supremecreat
      * @return Supremecreative_Giftregistry_Block_Share_Giftregistry
      *
      */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
 
-        $headBlock = $this->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle($this->getHeader());
-        }
-        return $this;
-    }
 
     /**
      * Retrieve Shared Gift Registry Customer instance
@@ -72,6 +63,19 @@ class Supremecreative_Giftregistry_Block_Share_Giftregistry extends Supremecreat
 
         return $this->_customer;
     }
+    
+    /**
+     * Retrieve Shared Gift Registry Customer instance
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getGiftregistryOwner()
+    {
+        if($this->_getGiftregistry()) {
+           return $this->_getGiftregistry()->getOwner() ? $this->_getGiftregistry()->getOwner() : '';
+        }
+        
+    }    
     
     /**
      * Retrieve Shared Gift Registry Type instance
@@ -90,6 +94,28 @@ class Supremecreative_Giftregistry_Block_Share_Giftregistry extends Supremecreat
      */
     public function getHeader()
     {
-        return Mage::helper('giftregistry')->__("%s's %s Gift Registry", $this->escapeHtml($this->getGiftregistryCustomer()->getFirstname()), $this->escapeHtml($this->getGiftregistryType()->getName()));
+        
+        $giftregistryOwner = $this->getGiftregistryOwner();
+        
+        if($this->getGiftregistryType()) {
+            $giftregistryType = $this->getGiftregistryType()->getName();
+        }
+        
+        if(isset($giftregistryType) && isset($giftregistryType)) {
+            return Mage::helper('giftregistry')->__("%s's %s Gift Registry", $this->escapeHtml($this->getGiftregistryOwner()), $this->escapeHtml($this->getGiftregistryType()->getName()));
+        }
+        
+        return '';
+        
     }
+    
+        protected function _prepareLayout()
+    {
+        $headBlock = $this->getLayout()->getBlock('head');
+        $title = $this->getHeader();
+        if ($headBlock && $title) {
+            $headBlock->setTitle($this->__($title));
+        }
+    }
+    
 }

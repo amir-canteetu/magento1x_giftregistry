@@ -25,86 +25,138 @@
  */
 /* @var $this Supremecreative_Giftregistry_Block_Share_Giftregistry */
 ?>
+<?php $helper = Mage::helper('giftregistry'); ?>
 <div class="my-giftregistry">
-    <div class="page-title">
-        <h1><?php echo $this->escapeHtml($this->getHeader()) ?></h1>
-    </div>
     <?php echo $this->getMessagesBlock()->toHtml() ?>
-    
+ 
     <?php if ($giftregistryInstance = $this->getGiftregistryInstance()) : ?> 
     
-            <?php if ($giftregistryInstance->getBannerImg()) : ?> 
-                <div class="giftregistry_img_display">
-                    <img id="registry_img_display" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $giftregistryInstance->getBannerImg(); ?>" alt="<?php echo null !== $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?>" height="260" width="680"> 
-                </div>
-            <?php endif; ?>
-
-  
-    <?php endif; ?>   
+        <div class="page-title">
+            <h1><?php echo $this->escapeHtml($this->getHeader()) ?></h1>
+        </div>    
+    
+    <?php if ($giftregistryInstance->getBannerImg()) : ?> 
+        <div class="giftregistry_img_display">
+            <img id="registry_img_display" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)  . 'giftregistryimgs/' . $giftregistryInstance->getBannerImg(); ?>" alt="<?php echo null !== $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?>" height="260" width="680"> 
+        </div>
+    <?php endif; ?>
     
     <?php if ($this->hasGiftregistryItems()): ?>
     
-    <div class="giftregistry_msg">
-        <blockquote><?php echo $this->escapeHtml($giftregistryInstance->getEventMessage()) ?></blockquote>
-    </div>
-    
-     <div class="giftregistry_info">
-        <ul>
-            <li><span>Event:</span> <?php echo $giftregistryInstance->getEventName() ? $giftregistryInstance->getEventName() : ''; ?></li>
-            <li><span>Date Of Event:</span> <?php echo $giftregistryInstance->getEventDate() ? $giftregistryInstance->getEventDate() : ''; ?></li>
-            <li><span>Venue:</span> <?php echo $giftregistryInstance->getEventLocation() ? $giftregistryInstance->getEventLocation() : ''; ?></li>
-            <li><span>Number Of Guests:</span> <?php echo $giftregistryInstance->getNumberGuests() ? $giftregistryInstance->getNumberGuests() : ''; ?></li>
-        </ul>
-    </div>                      
-    
-    <form action="<?php echo $this->getUrl('*/*/update') ?>" method="post">
-        <div class="fieldset">
-            <table class="data-table" id="giftregistry-table">
-            <col width="1" />
-            <col />
-            <col width="1" />
-            <thead>
-                <tr>
-                    <th><?php echo $this->__('Product') ?></th>
-                    <th><?php echo $this->__('Comment') ?></th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php foreach($this->getGiftregistryItems() as $item): ?>
-                <?php
-                    $product = $item->getProduct();
-                    $isVisibleProduct = $product->isVisibleInSiteVisibility();
-                ?>
-                <tr>
-                    <td>
-                        <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
-                        <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h2>
-                        <?php echo $this->getPriceHtml($product) ?>
-                        <?php echo $this->getDetailsHtml($item) ?>
-                    </td>
-                    <td><?php echo $this->getEscapedDescription($item) ?></td>
-                    <td class="a-center">
-                    <?php if ($product->isSaleable()): ?>
-                        <?php if ($isVisibleProduct): ?>
-                            <button type="button" title="<?php echo $this->quoteEscape($this->__('Add to Cart')) ?>" onclick="setLocation('<?php echo $this->getSharedItemAddToCartUrl($item) ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
-                        <?php endif ?>
-                    <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach ?>
-            </tbody>
-            </table>
-            <script type="text/javascript">decorateTable('giftregistry-table');</script>
+        <div class="giftregistry_msg">
+            <blockquote><?php echo $this->escapeHtml($giftregistryInstance->getEventMessage()) ?></blockquote>
         </div>
-        <div class="buttons-set">
-            <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
-            <?php if($this->isSaleable()):?>
-                <button type="button" title="<?php echo $this->quoteEscape($this->__('Add All to Cart')) ?>" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="button"><span><span><?php echo $this->__('Add All to Cart') ?></span></span></button>
-            <?php endif;?>
-        </div>
-    </form>
+
+         <div class="giftregistry_info">
+            <ul>
+                <li><span>Gift Registry Owner:</span> <?php echo $giftregistryInstance->getOwner() ? $giftregistryInstance->getOwner() : ''; ?></li>
+                <li><span>Date Of Event:</span> <?php echo $giftregistryInstance->getEventDate() ? $giftregistryInstance->getEventDate() : ''; ?></li>
+                <li><span>Venue:</span> <?php echo $giftregistryInstance->getEventLocation() ? $giftregistryInstance->getEventLocation() : ''; ?></li>
+                <li><span>Number Of Guests:</span> <?php echo $giftregistryInstance->getNumberGuests() ? $giftregistryInstance->getNumberGuests() : ''; ?></li>
+            </ul>
+        </div>                      
+    
+        <form action="<?php echo $this->getUrl('*/*/update') ?>" method="post">
+            <div class="fieldset">
+                <table class="data-table" id="giftregistry-table">
+                <col width="1" />
+                <col />
+                <col width="1" />
+                <thead>
+                    <tr>
+                        <th><?php echo $this->__('Product') ?></th>
+                        <th><?php echo $this->__('Comment') ?></th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($this->getGiftregistryItems() as $item): ?>
+                    <?php
+                        $product = $item->getProduct();
+                        $isVisibleProduct = $product->isVisibleInSiteVisibility();
+                    ?>
+                    <tr>
+                        <td>
+                            <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
+                            <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h2>
+                            <?php echo $this->getPriceHtml($product) ?>
+                            <?php echo $this->getDetailsHtml($item) ?>
+                        </td>
+                        <td><?php echo $this->getEscapedDescription($item) ?></td>
+                        <td class="a-center">
+                        <?php if ($product->isSaleable()): ?>
+                            <?php if ($isVisibleProduct): ?>
+                                <button type="button" title="<?php echo $this->quoteEscape($this->__('Add to Cart')) ?>" onclick="setLocation('<?php echo $this->getSharedItemAddToCartUrl($item) ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                            <?php endif ?>
+                        <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+                </tbody>
+                </table>
+                <script type="text/javascript">decorateTable('giftregistry-table');</script>
+            </div>
+            <div class="buttons-set">
+                <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+                <?php if($this->isSaleable()):?>
+                    <button type="button" title="<?php echo $this->quoteEscape($this->__('Add All to Cart')) ?>" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="button"><span><span><?php echo $this->__('Add All to Cart') ?></span></span></button>
+                <?php endif;?>
+            </div>
+        </form>
+    
     <?php else: ?>
-    <p class="giftregistry-empty"><?php echo $this->__('Gift Registry is empty.') ?></p>
+        <p class="giftregistry-empty"><?php echo $this->__('Gift Registry is empty.') ?></p>
     <?php endif ?>
+            
+    <?php else: ?>
+        <p class="giftregistry-empty"><?php echo $this->__('Sorry, the Gift Registry does not exist. Try searching for it.') ?></p>
+        
+        <div class="my-giftregistry">
+
+        <form id="giftregistry-view-form" action="<?php echo $this->getUrl('*/search/results') ?>" method="post">
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <div class="fieldset">
+                <h2 class="legend"><?php echo $this->__('Event Information') ?></h2>  
+
+                <ul class="form-list">
+                    <li class="fields">
+                        <div class="field">
+                            <label for="type_id"><?php echo $this->__('Event type') ?></label>                    
+                            <div class="input-box">                        
+                                <select name="type_id" class="validate-select" id="type_id">
+                                        <option value=""><?php echo $this->__('Please Select an Event Type') ?></option>
+                                    <?php foreach ($helper->getEventTypes() as $type): ?>
+                                        <option id="<?php echo $type->getTypeId(); ?>" value="<?php echo $type->getTypeId(); ?>"> <?php echo $type->getName(); ?>                               
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select> 
+
+                            </div>                   
+                        </div>
+
+                        <div class="field">
+                            <label class="giftreg" for="sharing code"><?php echo $this->__('Sharing Code') ?></label>                    
+                            <div class="input-box">                                       
+                                <input type="text" name="sharing_code" id="sharing_code" placeholder="Sharing Code" value="" title="Sharing Code"/>                                                
+                            </div>                   
+                        </div>                                
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class="buttons-set">
+                <button type="submit" title="Save" id="saveregbutton" class="button">
+                    <span>
+                        <span><?php echo $this->__('Search') ?></span>
+                    </span>
+                </button>
+            </div>        
+
+        </form>          
+            
+    </div>        
+        
+    <?php endif ?>
+        
 </div>
